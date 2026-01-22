@@ -1,0 +1,798 @@
+/* ============================================
+   SPECIALISTS
+   ============================================ */
+
+/* Section Styles */
+.section__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #2D452D;
+}
+
+.section__subtitle {
+    font-size: 1.125rem;
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 3rem;
+}
+
+/* Specialists Section */
+.specialists {
+    padding: 6rem 0;
+    background: white;
+}
+
+.specialists__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    align-items: stretch;
+}
+
+/* Responsive for specialist cards */
+@media (max-width: 1024px) {
+    .specialists__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .specialists__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.specialists__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.specialists__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2D452D;
+    margin: 0;
+}
+
+/* Specialist Card */
+.specialist-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.specialist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.specialist-card__photo {
+    aspect-ratio: 1;
+    width: 100%;
+    min-height: 300px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 14px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.specialist-card__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: block;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.specialist-card:hover .specialist-card__photo img {
+    transform: scale(1.05);
+}
+
+.specialist-card__info {
+    flex: 1;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.specialist-card__name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.specialist-card__position {
+    color: #2D452D;
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+}
+
+.specialist-card__experience {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 60px;
+    padding-top: 1rem;
+    margin-bottom: 36px;
+}
+
+.experience-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.experience-item p {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.experience-item span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2D452D;
+    line-height: 1.3;
+}
+
+/* GUARANTEE SPECIALIST CARD BUTTONS ARE ALWAYS VISIBLE */
+.specialist-card .specialist-card__link {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    transform: none !important;
+}
+
+.specialist-card .specialist-card__info {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.specialist-card .specialist-card__info > * {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Specialist Detail Page */
+.specialist-detail {
+    padding: 10rem 0 6rem 0;
+    background: #fafafa;
+    min-height: 100vh;
+}
+
+.specialist-detail__header {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.specialist-detail__photo {
+    width: 300px;
+    height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+}
+
+.specialist-detail__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 1;
+}
+
+.specialist-detail__info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.specialist-detail__name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.specialist-detail__position {
+    font-size: 1.125rem;
+    color: #2D452D;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.specialist-detail__experience {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.specialist-detail__experience .experience-item {
+    text-align: left;
+    align-items: flex-start;
+}
+
+.specialist-detail__experience .experience-item p {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #2D452D;
+    margin-bottom: 1rem;
+}
+
+.specialist-detail__experience .experience-item span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.specialist-detail__specializations {
+    margin-bottom: 2rem;
+}
+
+.specialist-detail__specializations h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #2D452D;
+    margin-bottom: 1rem;
+}
+
+.specialization-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.specialization-tag {
+    background: transparent;
+    color: #374151;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    margin-right: 0.5rem;
+}
+
+.specialization-tag:hover {
+    background: transparent;
+    color: #2D452D;
+    transform: none;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.specialist-detail__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.specialist-detail__description,
+.specialist-detail__education,
+.specialist-detail__work-experience,
+.specialist-detail__problems,
+.specialist-detail__specializations--boxed {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.specialist-detail__description h2,
+.specialist-detail__education h2,
+.specialist-detail__work-experience h2,
+.specialist-detail__specializations h2,
+.specialist-detail__problems h2,
+.specialist-detail__specializations--boxed h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2D452D;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.specialist-detail__specializations--boxed {
+    margin-bottom: 2rem;
+}
+
+.specialist-detail__specializations--boxed h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2D452D;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.specialist-detail__text {
+    line-height: 1.6;
+    color: #374151;
+}
+
+.specialist-detail__text p {
+    margin-bottom: 1rem;
+}
+
+.specialist-detail__text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Education List Styles */
+.education-list {
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 4px solid #2D452D;
+    padding: 1rem;
+}
+
+.education-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.125rem 0;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.education-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.education-item:first-child {
+    padding-top: 0;
+}
+
+.education-item i {
+    color: #2D452D;
+    font-size: 1.25rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.education-item p {
+    margin: 0;
+    line-height: 1.5;
+    color: #374151;
+    flex: 1;
+}
+
+/* Work List Styles */
+.work-list {
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 4px solid #2D452D;
+    padding: 1rem;
+}
+
+.work-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.125rem 0;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.work-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.work-item:first-child {
+    padding-top: 0;
+}
+
+/* Specializations List Styles */
+.specializations-list {
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 4px solid #2D452D;
+    padding: 1rem;
+}
+
+.specialization-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.125rem 0;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.specialization-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.specialization-item:first-child {
+    padding-top: 0;
+}
+
+/* Problems List Styles */
+.problems-list {
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 4px solid #2D452D;
+    padding: 1rem;
+}
+
+.problem-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.125rem 0;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.problem-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.problem-item:first-child {
+    padding-top: 0;
+}
+
+/* Base styles for all items */
+.work-item i,
+.specialization-item i,
+.problem-item i {
+    color: #2D452D;
+    font-size: 1.25rem;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.work-item p,
+.specialization-item p,
+.problem-item p {
+    margin: 0;
+    line-height: 1.5;
+    color: #374151;
+    flex: 1;
+}
+
+/* All Specialists Page */
+.all-specialists {
+    padding: 10rem 0 6rem 0;
+    background: #fafafa;
+    min-height: 100vh;
+}
+
+.all-specialists .specialists__header {
+    margin-bottom: 2rem;
+}
+
+.all-specialists .specialists__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.consultation-section {
+    background: white;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.consultation-section h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2D452D;
+    margin-bottom: 1rem;
+}
+
+.consultation-section p {
+    font-size: 1.125rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consultation-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Back to Main Section */
+.back-to-main {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #2D452D 0%, #1e3a1e 100%);
+    overflow: hidden;
+}
+
+.back-to-main__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../../images/clinic-interior.jpg') center/cover;
+    z-index: 1;
+}
+
+.back-to-main__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(45, 69, 45, 0.8), rgba(30, 58, 30, 0.9));
+    z-index: 2;
+}
+
+.back-to-main__content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: white;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.back-to-main__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.back-to-main__subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.back-to-main__button .btn--primary {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    color: white;
+    border: none;
+    padding: 1.2rem 2.5rem;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.back-to-main__button .btn--primary:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(40, 167, 69, 0.5);
+}
+
+/* Responsive Design for Specialist Pages */
+@media (max-width: 768px) {
+    .specialist-detail__header {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .specialist-detail__photo {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .specialist-detail__actions {
+        justify-content: center;
+    }
+
+    .specialist-detail__specializations {
+        justify-content: center;
+    }
+
+    .specialist-detail__experience {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .specialist-detail__experience .experience-item {
+        text-align: center;
+    }
+
+    .work-item,
+    .specialization-item,
+    .problem-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .education-item i,
+    .work-item i,
+    .specialization-item i,
+    .problem-item i {
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+
+    .education-item,
+    .work-item,
+    .specialization-item,
+    .problem-item {
+        flex-direction: row;
+        text-align: left;
+        gap: 1rem;
+        padding: 0.5rem 0;
+        align-items: center;
+    }
+
+    .all-specialists .specialists__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .consultation-section {
+        padding: 2rem;
+    }
+
+    .consultation-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .back-to-main {
+        min-height: 60vh;
+    }
+
+    .back-to-main__title {
+        font-size: 2rem;
+    }
+
+    .back-to-main__subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .back-to-main__button .btn--primary {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .specialist-detail {
+        padding: 4rem 0;
+    }
+
+    .all-specialists {
+        padding: 8rem 0 4rem 0;
+    }
+
+    .specialist-detail__header {
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .specialist-detail__info {
+        gap: 0.75rem;
+    }
+
+    .specialist-detail__name {
+        font-size: 1.5rem;
+    }
+
+    .specialist-detail__position {
+        font-size: 1rem;
+    }
+
+    .specialist-detail__actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .specialist-detail__description,
+    .specialist-detail__education,
+    .specialist-detail__work-experience,
+    .specialist-detail__specializations,
+    .specialist-detail__problems {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .specialist-detail__description h2,
+    .specialist-detail__education h2,
+    .specialist-detail__work-experience h2,
+    .specialist-detail__specializations h2,
+    .specialist-detail__problems h2 {
+        font-size: 1.25rem;
+    }
+
+    .consultation-section {
+        padding: 1.5rem;
+    }
+
+    .consultation-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .consultation-section p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .back-to-main {
+        min-height: 50vh;
+    }
+
+    .back-to-main__title {
+        font-size: 1.75rem;
+    }
+
+    .back-to-main__subtitle {
+        font-size: 1rem;
+    }
+
+    .back-to-main__button .btn--primary {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+}

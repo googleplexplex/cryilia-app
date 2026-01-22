@@ -1,0 +1,87 @@
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+}
+
+.btn--primary {
+    background: linear-gradient(135deg, #2D452D, #1e3a1e);
+    color: white;
+    box-shadow: 0 4px 14px rgba(45, 69, 45, 0.3);
+}
+
+.btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 69, 45, 0.4);
+}
+
+.btn--outline {
+    background: transparent;
+    color: #2D452D;
+    border: 2px solid #2D452D;
+}
+
+.btn--outline:hover {
+    background: #2D452D;
+    color: white;
+}
+
+/* Special styling for hero services button */
+.hero .btn--outline {
+    color: white;
+    border: 2px solid white;
+}
+
+.hero .btn--outline:hover {
+    background: white;
+    color: #2D452D;
+}
+
+.btn--large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+/* Danger button */
+.btn--danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border: none;
+}
+
+.btn--danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+    transform: translateY(-2px);
+}
+
+/* Back button */
+.cabinet__back-button {
+    background: transparent;
+    color: #FDFFFC;
+    border: 2px solid #FDFFFC;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cabinet__back-button:hover {
+    background: #FDFFFC;
+    color: #2D452D;
+}

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Клиника "Крылья" - Психиатрическая помощь в Туле</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <a href="/" class="logo">
+                    <div class="logo__image">
+                        <img src="/static/images/logo.jpg?v=2" alt="Крылья - Логотип" onerror="this.style.display='none'; this.parentElement.innerHTML='К';">
+                    </div>
+                    <div class="logo__text">
+                        <h1 class="logo__title">Крылья</h1>
+                        <span class="logo__subtitle">Центр психотерапии</span>
+                    </div>
+                </a>
+                <nav class="nav">
+                    <a href="/specialists" class="nav__link">Специалисты</a>
+                    <a href="#services" class="nav__link">Услуги</a>
+                    <a href="#about" class="nav__link">О нас</a>
+                    <a href="#contacts" class="nav__link">Контакты</a>
+                </nav>
+                <div class="header__auth">
+                    <button class="btn btn--primary" onclick="redirectToBooking()">Связаться с нами</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__background">
+            <div class="hero__overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero__content">
+                <h2 class="hero__title">Профессиональная психологическая помощь в Туле</h2>
+                <p class="hero__subtitle">Опытные специалисты, современные методы лечения, анонимность и конфиденциальность</p>
+                <div class="hero__buttons">
+                    <button class="btn btn--primary btn--large" onclick="scrollToServices()">Наши услуги</button>
+                    <button class="btn btn--outline btn--large" onclick="scrollToSpecialists()">Выбрать специалиста</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialists Section -->
+    <section id="specialists" class="specialists">
+        <div class="container">
+            <h2 class="section__title">Команда специалистов</h2>
+            <div class="specialists__header">
+                <p class="specialists__title">Врачи</p>
+                <div class="specialists__all-link">
+                    <a href="/specialists" class="btn btn--outline">Все специалисты</a>
+                </div>
+            </div>
+
+            <div class="specialists__grid">
+                <a href="/specialist/ivashinenko-dmitriy-mikhaylovich" class="specialist-card"
+                   data-career-start="2001"
+                   data-clinic-start="2024-04-01">
+                    <div class="specialist-card__photo">
+                        <img src="/static/images/specialists/ivashinenko.jpg" alt="Ивашиненко Дмитрий Михайлович" onerror="this.parentElement.innerHTML='Фото';">
+                    </div>
+                    <div class="specialist-card__info">
+                        <p class="specialist-card__name">Ивашиненко Дмитрий Михайлович</p>
+                        <p class="specialist-card__position">Психиатр, Психотерапевт</p>
+                        <div class="specialist-card__experience">
+                            <div class="experience-item">
+                                <p>Опыт работы</p>
+                                <span class="experience-total">вычисляется...</span>
+                            </div>
+                            <div class="experience-item">
+                                <p>Стаж в клинике</p>
+                                <span class="experience-clinic">вычисляется...</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-card"
+                   data-career-start="2003"
+                   data-clinic-start="2024-04-01">
+                    <div class="specialist-card__photo">
+                        <img src="/static/images/specialists/ivashinenko-lyubov.jpg" alt="Ивашиненко Любовь Владимировна" onerror="this.parentElement.innerHTML='Фото';">
+                    </div>
+                    <div class="specialist-card__info">
+                        <p class="specialist-card__name">Ивашиненко Любовь Владимировна</p>
+                        <p class="specialist-card__position">Психолог</p>
+                        <div class="specialist-card__experience">
+                            <div class="experience-item">
+                                <p>Опыт работы</p>
+                                <span class="experience-total">вычисляется...</span>
+                            </div>
+                            <div class="experience-item">
+                                <p>Стаж в клинике</p>
+                                <span class="experience-clinic">вычисляется...</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/specialist/ershova-yuliya-gennadievna" class="specialist-card"
+                   data-career-start="2010"
+                   data-clinic-start="2024-10-01">
+                    <div class="specialist-card__photo">
+                        <img src="/static/images/specialists/ershova.jpg" alt="Ершова Юлия Геннадиевна" onerror="this.parentElement.innerHTML='Фото';">
+                    </div>
+                    <div class="specialist-card__info">
+                        <p class="specialist-card__name">Ершова Юлия Геннадиевна</p>
+                        <p class="specialist-card__position">Психотерапевт</p>
+                        <div class="specialist-card__experience">
+                            <div class="experience-item">
+                                <p>Опыт работы</p>
+                                <span class="experience-total">вычисляется...</span>
+                            </div>
+                            <div class="experience-item">
+                                <p>Стаж в клинике</p>
+                                <span class="experience-clinic">вычисляется...</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section__title">Наши услуги</h2>
+            <div class="services__grid">
+                <div class="service-card" onclick="openServiceModal('consultation')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="service-card__title">Консультации</h3>
+                    <p class="service-card__description">Первичная диагностика, подбор лечения, наблюдение</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('psychotherapy')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="service-card__title">Психотерапия</h3>
+                    <p class="service-card__description">Индивидуальная и семейная психотерапия</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('child')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3 class="service-card__title">Детская психиатрия</h3>
+                    <p class="service-card__description">Специализированная помощь детям и подросткам</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('home')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="service-card__title">Выезд на дом</h3>
+                    <p class="service-card__description">Консультации в комфортной домашней обстановке</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Modal -->
+    <div id="serviceModal" class="service-modal">
+        <div class="service-modal__overlay" onclick="closeServiceModal()"></div>
+        <div class="service-modal__content">
+            <button class="service-modal__close" onclick="closeServiceModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="service-modal__body">
+                <div class="service-modal__icon" id="modalIcon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2 class="service-modal__title" id="modalTitle">Название услуги</h2>
+                <div class="service-modal__description" id="modalDescription">
+                    Описание услуги
+                </div>
+                <div class="service-modal__details" id="modalDetails">
+                    Детали услуги
+                </div>
+                <div class="service-modal__cta">
+                    <button class="btn btn--primary btn--large" onclick="redirectToBooking()">
+                        <i class="fas fa-calendar-check"></i>
+                        Записаться на прием
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="testimonials__container">
+            <div class="testimonials__header">
+                <h2 class="testimonials__title">Отзывы наших пациентов</h2>
+                <p class="testimonials__subtitle">Реальные истории успеха и благодарности от тех, кому мы помогли</p>
+            </div>
+
+            <div class="testimonials__slider">
+                <div class="testimonials__arrow testimonials__arrow--prev" onclick="previousTestimonialManual()">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="testimonials__cards-container">
+                    <!-- Отзыв 1 -->
+                    <div class="testimonial-card active">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Елена К.</div>
+                                <div class="testimonial-card__date">25 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Посещение центра оставило положительное впечатление - удобное расположение, уютная атмосфера, что психологически настраивает на терапию, профессиональная работа специалистов центра, все это располагает к получению результата."
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 2 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Дмитрий П.</div>
+                                <div class="testimonial-card__date">24 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Огромная благодарность центру "Крылья" за участие и поддержку в период решения очень сложной задачи! Психолог <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Ивашиненко Любовь Владимировна</a> имеет богатейший опыт и может оказать психологическую помощь в любой сложной ситуации!"
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 3 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Анонимный отзыв</div>
+                                <div class="testimonial-card__date">30 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Хотела бы поблагодарить <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Любовь Владимировну</a> за проделанную работу. Обращалась к <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Любовь Владимировне</a> несколько раз в разные промежутки жизни. Это были очень продуктивные встречи. Мне было комфортно и безопасно. <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Любовь Владимировна</a> действительно профессионал своего дела и прекрасный человек."
+                            </div>
+                            <a href="https://dikidi.app/1806947?p=1.pi-pr&o=8" target="_blank" class="testimonial-card__service">Дикиди</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 4 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Анонимный отзыв</div>
+                                <div class="testimonial-card__date">4 февраля 2024</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Хочу выразить благодарность доктору <a href="/specialist/ershova-yuliya-gennadievna" class="specialist-link">Юлии Геннадиевне</a> за помощь в лечении панической атаки. И поблагодарить за правильно подобранное лечение, за умение выслушать и всё разъяснить до мельчайших деталей. Всем советую этого доктора. Большое спасибо."
+                            </div>
+                            <a href="https://prodoctorov.ru/tula/vrach/1196634-ershova/#rating" target="_blank" class="testimonial-card__service">ProDoctorov</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 5 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Светлана Б.</div>
+                                <div class="testimonial-card__date">19 августа 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Была на приеме у <a href="/specialist/ivashinenko-dmitriy-mikhaylovich" class="specialist-link">Дмитрия Михайловича</a>. После измены мужа, случился кризис, накрыла депрессия и тревожность. <a href="/specialist/ivashinenko-dmitriy-mikhaylovich" class="specialist-link">Дмитрий Михайлович</a> выслушал и предложил стационар. Я благодарна ему за помощь. В стационаре лежала под его контролем. Препараты назначены грамотно, это позволило мне пережить ситуацию, а смена обстановки помогла посмотреть на свою жизнь с другой стороны. Он не просто назначил таблетки, он спас мою жизнь!!!"
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 6 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Екатерина Т.</div>
+                                <div class="testimonial-card__date">6 ноября 2024</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Хожу к <a href="/specialist/minaeva-alina-aleksandrovna" class="specialist-link">Алине</a> порядка полугода, за это время во мне произошли кардинальные перемены, я пересмотрела взгляды на многие вещи, в целом жить стало гораздо проще и комфортнее. В начале, буду откровенной, боялась записываться к молодому специалисту, но сейчас понимаю, что все опасения были напрасны, <a href="/specialist/minaeva-alina-aleksandrovna" class="specialist-link">Алина</a> никогда не навязывает свою точку зрения, всегда отзывчива и, конечно, эмпатична."
+                            </div>
+                            <a href="https://vk.com/center_of_psychology_tula" target="_blank" class="testimonial-card__service">ВКонтакте</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 7 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Оля В.</div>
+                                <div class="testimonial-card__date">24 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Очень рекомендую психологический центр «Крылья»! Здесь царит тёплая и душевная атмосфера, что с первых минут чувствуешь себя так, что тут тебя примут и поймут. Хочу от всей души поблагодарить <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Любовь Владимировну Ивашиненко</a> — благодаря её чуткости, профессионализму и поддержке я чувствую, как меняется моё состояние в лучшую сторону."
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 8 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Анонимный отзыв</div>
+                                <div class="testimonial-card__date">27 апреля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Я обращался к доктору по причине расстройства сна. <a href="/specialist/ivashinenko-dmitriy-mikhaylovich" class="specialist-link">Дмитрий Михайлович</a> внимательно выслушал все мои жалобы, назначил лечение. С тех пор я у него наблюдаюсь, получаю консультацию и поддерживающую терапию. Спасибо доктору за его труд."
+                            </div>
+                            <a href="https://prodoctorov.ru/tula/vrach/294020-ivashinenko/otzivi/#otzivi" target="_blank" class="testimonial-card__service">ProDoctorov</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 9 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Светлана Б.</div>
+                                <div class="testimonial-card__date">19 августа 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Обращалась к психологу <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Любовь Владимировна</a> и психиатру <a href="/specialist/ivashinenko-dmitriy-mikhaylovich" class="specialist-link">Дмитрию Михайловичу</a>. Благодарна им за их работу, с таким включением в решение проблемы и профессиональным подходом. Всем знакомым рекомендую центр «Крылья» и слышу от них только благодарность. Не всеми проблемами можно поделиться с близкими и в эти трудные жизненные моменты такие специалисты дают огромную поддержку!"
+                            </div>
+                            <a href="https://vk.com/center_of_psychology_tula" target="_blank" class="testimonial-card__service">ВКонтакте</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 10 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Ульяна А.</div>
+                                <div class="testimonial-card__date">29 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Отметила, что в центре проводятся групповые занятия, что дает возможность не только работать с индивидуальными проблемами, но и обмениваться опытом с другими людьми. Рекомендую этот центр всем, кто ищет профессиональную помощь и хочет улучшить свое психоэмоциональное состояние."
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 11 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Сергей Г.</div>
+                                <div class="testimonial-card__date">27 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Посчастливилось работать с <a href="/specialist/ivashinenko-dmitriy-mikhaylovich" class="specialist-link">Дмитрием Михайловичем Ивашиненко</a>. Очень благодарен за терапию. С первых встреч появилось ощущение безопасности и понимания. Прекрасный психотерапевтический центр "Крылья", где чувствуешь себя услышанным и нужным! Рекомендую!"
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 12 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Ларина К.</div>
+                                <div class="testimonial-card__date">28 сентября 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Во времена обучения в университете настала точка А, в которой я столкнулась сама с собой и мне нужна была помощь. Проблема была в том, что я не умела просить помощь. Мне тогда помогли несколько человек, которым я очень благодарна, именно так я познакомила с <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Любовью Владимировной</a> и оказалась на первой консультации. Путь был долгий и не простой, я предпринимала несколько попыток побега, но от себя не убежишь."
+                            </div>
+                            <a href="https://vk.com/center_of_psychology_tula" target="_blank" class="testimonial-card__service">ВКонтакте</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 13 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Анонимный отзыв</div>
+                                <div class="testimonial-card__date">24 апреля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Обращаюсь к <a href="/specialist/ivashinenko-dmitriy-mikhaylovich" class="specialist-link">Дмитрию Михайловичу</a> раз в месяц, понадобилась помощь психиатра. Врач внимательно выслушивает жалобы, интересуется моим состоянием. Я благодарна ему за подход и грамотное назначение препаратов - лечение помогает, самочувствие улучшилось."
+                            </div>
+                            <a href="https://prodoctorov.ru/tula/vrach/294020-ivashinenko/otzivi/#otzivi" target="_blank" class="testimonial-card__service">ProDoctorov</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 14 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Екатерина В.</div>
+                                <div class="testimonial-card__date">22 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Отличный психологический центр в нашем городе. Очень приятная, располагающаяся и дружелюбная атмосфера чувствуется уже с порога. Команда центра - это команда высокопрофессиональных специалистов, которые всегда придут на помощь, будут крайне деликатны, вежливы, внимательны, а самое главное приведут к положительному результату. Тут всё четко и по делу."
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+
+                    <!-- Отзыв 15 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <div class="testimonial-card__info">
+                                <div class="testimonial-card__name">Иван В.</div>
+                                <div class="testimonial-card__date">26 июля 2025</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__content">
+                            <div class="testimonial-card__rating">
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                                <i class="fas fa-star testimonial-card__star"></i>
+                            </div>
+                            <div class="testimonial-card__text">
+                                "Я бескрайне благодарен <a href="/specialist/ivashinenko-lyubov-vladimirovna" class="specialist-link">Ивашиненко Любови</a> за её профессионализм и прекрасный бережный подход к каждому человеку. Каждый час терапии становится для меня островком понимания, принятия и роста. Я обращался с самыми разными запросами, и завершая каждый этап чувствовал, как с плеч спадает невидимый груз. За долгие годы нашей работы моя жизнь изменилась до неузнаваемости в лучшую сторону."
+                            </div>
+                            <a href="https://yandex.ru/maps/org/krylya/18886140117/reviews/?ll=37.598591%2C54.185594&z=16" target="_blank" class="testimonial-card__service">Яндекс.Карты</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonials__arrow testimonials__arrow--next" onclick="nextTestimonialManual()">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <div class="testimonials__dots">
+                <div class="testimonials__dot active" onclick="showTestimonialManual(0)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(1)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(2)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(3)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(4)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(5)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(6)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(7)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(8)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(9)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(10)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(11)"></div>
+                <div class="testimonials__dot" onclick="showTestimonialManual(12)"></div>
+            </div>
+
+  
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="btn btn--primary btn--large" onclick="redirectToBooking()">
+                    <i class="fas fa-star"></i>
+                    Оставить свой отзыв
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about__content">
+                <div class="about__text">
+                    <h2 class="section__title">Почему выбирают нас</h2>
+                    <div class="about__description">
+                        <p class="about__greeting">Дорогие друзья, наш Центр психотерапии и психологического консультирования «Крылья» – это небольшое, но очень уютное пространство, где можно будет получить помощь во всех вопросах, касающихся нашей драгоценной психики!</p>
+                        <p class="about__team">Команда центра - это не просто команда профессионалов, а крепкий альянс людей, которые живут своим делом.</p>
+                        <p class="about__motto">Помогать с Любовью - наше кредо!</p>
+                    </div>
+                </div>
+                <div class="about__image">
+                    <img src="/static/images/door-sign.png" alt="Интерьер клиники">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="carousel-2 owl-carousel">
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/IMG_0490_resized.jpg" alt="Фасад клиники" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/XXXL (3).webp" alt="Дополнительное фото 1" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/XXXL (4).png" alt="Дополнительное фото 2" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/XXXL (5).webp" alt="Дополнительное фото 3" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/IMG_0432.JPG" alt="Интерьер клиники" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/IMG_0435.JPG" alt="Кабинет психолога" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/IMG_0436.JPG" alt="Зона ожидания" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/IMG_0437.JPG" alt="Оформление кабинета" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/IMG_0440.JPG" alt="Детали интерьера" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/IMG_0442.JPG" alt="Рабочее место" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/DSC03120.JPG" alt="Приемная" />
+                    </div>
+                </a>
+                <a href="#link">
+                    <div class="owl-pic">
+                        <img src="/static/all_fotos/DSC03122.JPG" alt="Коридор клиники" />
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacts" class="contacts">
+        <div class="container">
+            <h2 class="section__title">Контакты</h2>
+            <div class="contacts__content">
+                <div class="contacts__columns">
+                    <!-- Левая колонка: Telegram -->
+                    <div class="contacts__column">
+                        <div class="contacts__widgets">
+                            <div class="contacts__widget">
+                                <h3 class="contacts__widget-title">Наш Telegram канал</h3>
+                                <div class="contacts__telegram-container">
+                                    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="center_of_psychology_tula/153" data-width="100%" data-userpic="true"></script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Центральная колонка: Адрес/телефон + VK -->
+                    <div class="contacts__column">
+                        <div class="contact-list">
+                            <div class="contact-list__item">
+                                <span class="contact-list__label">Адрес</span>
+                                <span class="contact-list__value"><a href="https://yandex.ru/maps/-/CLR0vKYw" target="_blank">Тула, ул. Бундурина, 40</a></span>
+                            </div>
+                            <div class="contact-list__item">
+                                <span class="contact-list__label">Телефон</span>
+                                <span class="contact-list__value">
+                                    <a href="tel:+79051196949">+7 (905) 119-69-49</a>
+                                </span>
+                            </div>
+                            <div class="contact-list__item">
+                                <span class="contact-list__label">Режим работы</span>
+                                <span class="contact-list__value">Пн-Сб: 9:00-21:00</span>
+                            </div>
+                        </div>
+
+                        <!-- Виджет VK -->
+                        <div class="contacts__widgets">
+                            <div class="contacts__widget">
+                                <a href="https://vk.com/center_of_psychology_tula" target="_blank" style="text-decoration: none; color: inherit;">
+                                    <h3 class="contacts__widget-title">Наша группа ВКонтакте</h3>
+                                </a>
+                                <div class="contacts__vk-container">
+                                    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+                                    <!-- VK Widget -->
+                                    <div id="vk_groups"></div>
+                                    <script type="text/javascript">
+                                    VK.Widgets.Group("vk_groups", {mode: 4, width: "auto", height: "400", color1: 'FFFFFF', color2: '2B587A', color3: '5B84A4'}, 225740964);
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка: Карта -->
+                    <div class="contacts__column">
+                        <div class="contacts__widgets">
+                            <!-- Виджет с картой -->
+                            <div class="contacts__widget">
+                                <h3 class="contacts__widget-title">Мы на карте</h3>
+                                <div class="contacts__map-container">
+                                    <div style="position:relative;overflow:hidden;">
+                                        <a href="https://yandex.ru/maps/org/krylya/18886140117/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Крылья</a>
+                                        <a href="https://yandex.ru/maps/15/tula/category/psychological_center/198277497761/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Психологический центр в Туле</a>
+                                        <a href="https://yandex.ru/maps/15/tula/category/psychological_counseling/27648301459/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:28px;">Психологическое консультирование в Туле</a>
+                                        <iframe src="https://yandex.ru/map-widget/v1/org/krylya/18886140117/?ll=37.598591%2C54.185594&utm_source=share&z=17" width="100%" height="300" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__logo">
+                    <div class="footer__logo-image">
+                        <img src="/static/images/logo.jpg?v=2" alt="Крылья - Логотип">
+                    </div>
+                    <div class="footer__logo-text">
+                        <h3>Крылья</h3>
+                        <p>Центр психотерапии и психологического консультирования</p>
+                    </div>
+                </div>
+                <div class="footer__links">
+                    <a href="/specialists">Специалисты</a>
+                    <a href="#services">Услуги</a>
+                    <a href="#about">О нас</a>
+                    <a href="#contacts">Контакты</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; <span id="currentYear"></span> Клиника "Крылья". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating VK Button -->
+    <a href="https://vk.com/center_of_psychology_tula" target="_blank" class="vk-float" title="Написать в ВКонтакте">
+        <i class="fab fa-vk"></i>
+    </a>
+
+    <!-- Floating Telegram Button -->
+    <a href="https://t.me/center_psychology71" target="_blank" class="telegram-float" title="Написать в Telegram">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<footer class="footer">
+    <div class="container">
+        <div class="footer__content">
+            <div class="footer__logo">
+                <div class="footer__logo-image">
+                    <img src="/static/images/logo.jpg?v=2" alt="Крылья - Логотип">
+                </div>
+                <div class="footer__logo-text">
+                    <h3>Крылья</h3>
+                    <p>Центр психотерапии и психологического консультирования</p>
+                </div>
+            </div>
+            <div class="footer__links">
+                <a href="/specialists">Специалисты</a>
+                <a href="/#services">Услуги</a>
+                <a href="/#about">О нас</a>
+                <a href="/#contacts">Контакты</a>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>&copy; <span id="currentYear"></span> Клиника "Крылья". Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Set current year in footer
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentYearElement = document.getElementById('currentYear');
+        if (currentYearElement) {
+            currentYearElement.textContent = new Date().getFullYear();
+        }
+    });
+</script>

@@ -1,0 +1,32 @@
+/* ============================================
+   MAIN STYLESHEET - Крылья Психология
+   ============================================
+
+   Модульная структура CSS для лучшей
+   поддерживаемости и производительности
+
+   ============================================ */
+
+/* Base Styles - Reset, typography, basic elements */
+@import url('modules/base.css');
+
+/* Header - Navigation, logo */
+@import url('modules/header.css');
+
+/* Buttons - All button styles */
+@import url('modules/buttons.css');
+
+/* Sections - Hero, Services, Testimonials, About, Gallery */
+@import url('modules/sections.css');
+
+/* Specialists - Cards, detail pages */
+@import url('modules/specialists.css');
+
+/* Contacts & Footer - Contact info, map, footer */
+@import url('modules/contacts.css');
+
+/* Forms & Modals - All forms and modal windows */
+@import url('modules/forms.css');
+
+/* Floating Buttons - VK and Telegram */
+@import url('modules/floating-buttons.css');

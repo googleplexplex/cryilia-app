@@ -1,0 +1,185 @@
+/* ============================================
+   FORMS & MODALS
+   ============================================ */
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal__content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal__close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #6b7280;
+    transition: color 0.3s ease;
+}
+
+.modal__close:hover {
+    color: #374151;
+}
+
+.modal h2 {
+    margin-bottom: 2rem;
+    color: #1f2937;
+    text-align: center;
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form__group input,
+.form__group select {
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form__group input:focus,
+.form__group select:focus {
+    outline: none;
+    border-color: #2D452D;
+}
+
+/* Auth Tabs */
+.auth-tabs {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 1rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+.auth-tab:hover {
+    color: #2D452D;
+}
+
+.auth-tab--active {
+    color: #2D452D;
+    border-bottom-color: #2D452D;
+}
+
+.auth-form {
+    display: block;
+}
+
+.auth-form.hidden {
+    display: none;
+}
+
+.auth-form__buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.auth-form__button {
+    flex: 1;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.auth-form__info {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.auth-form__info p {
+    margin: 0.5rem 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.auth-form__info p:first-child {
+    font-weight: 500;
+    color: #2D452D;
+}
+
+/* Стили для поля ввода кода подтверждения */
+#verifyForm input[name="verification_code"] {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+#verifyForm input[name="verification_code"]:focus {
+    border-color: #2D452D;
+    box-shadow: 0 0 0 3px rgba(45, 69, 45, 0.1);
+    transform: scale(1.02);
+}
+
+/* Стили для всех кнопок в формах авторизации */
+.auth-form .btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Адаптивность для кнопок авторизации */
+@media (max-width: 480px) {
+    .auth-form__buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .auth-form__button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Ошибка сервера - Центр психотерапии "Крылья"{% endblock %}
+
+{% block content %}
+<section style="min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <div class="container">
+        <h1 style="font-size: 6rem; color: #dc3545; margin-bottom: 1rem;">500</h1>
+        <h2 style="font-size: 2rem; color: #374151; margin-bottom: 2rem;">Внутренняя ошибка сервера</h2>
+        <p style="font-size: 1.125rem; color: #6b7280; margin-bottom: 2rem;">
+            Приносим извинения за неудобства. Мы уже работаем над устранением проблемы.
+        </p>
+        <a href="/" class="btn btn--primary btn--large">
+            <i class="fas fa-home"></i>
+            На главную
+        </a>
+    </div>
+</section>
+{% endblock %}

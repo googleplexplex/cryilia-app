@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Клиника "Крылья" - Психиатрическая помощь в Туле{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% include 'components/header.html' %}
+
+    {% block content %}{% endblock %}
+
+    {% include 'components/footer.html' %}
+
+    <!-- Floating VK Button -->
+    <a href="https://vk.com/center_of_psychology_tula" target="_blank" class="vk-float" title="Написать в ВКонтакте">
+        <i class="fab fa-vk"></i>
+    </a>
+
+    <!-- Floating Telegram Button -->
+    <a href="https://t.me/center_psychology71" target="_blank" class="telegram-float" title="Написать в Telegram">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

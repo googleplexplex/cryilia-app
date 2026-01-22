@@ -1,0 +1,66 @@
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fafafa;
+}
+
+/* Hide global scrollbar */
+html::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-padding-top: 80px;
+    scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Ensure images are always visible */
+img {
+    opacity: 1 !important;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Allow hover transitions only for specific elements */
+.specialist-card__photo img {
+    transition: transform 0.3s ease !important;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Убираем горизонтальную прокрутку для body и html */
+html, body {
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку на уровне страницы */
+}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Специалисты - Центр психотерапии "Крылья"{% endblock %}
+
+{% block content %}
+    <!-- All Specialists Section -->
+    <section class="all-specialists">
+        <div class="container">
+            <h1 class="section__title">Команда специалистов</h1>
+
+            <div class="specialists__header">
+                <p class="specialists__title">Врачи</p>
+            </div>
+
+            <div class="specialists__grid">
+                {% for specialist in specialists %}
+                <a href="/specialist/{{ specialist.id }}" class="specialist-card"
+                   data-career-start="{{ specialist.career_start_year }}"
+                   data-clinic-start="{{ specialist.clinic_start_date }}">
+                    <div class="specialist-card__photo">
+                        <img src="/static/images/specialists/{{ specialist.photo }}" alt="{{ specialist.full_name }}" onerror="this.parentElement.innerHTML='Фото';">
+                    </div>
+                    <div class="specialist-card__info">
+                        <p class="specialist-card__name">{{ specialist.full_name }}</p>
+                        <p class="specialist-card__position">{{ specialist.position }}</p>
+                        <div class="specialist-card__experience">
+                            <div class="experience-item">
+                                <p>Опыт работы</p>
+                                <span class="experience-total">вычисляется...</span>
+                            </div>
+                            <div class="experience-item">
+                                <p>Стаж в клинике</p>
+                                <span class="experience-clinic">вычисляется...</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+            <!-- Consultation Section -->
+            <div class="consultation-section">
+                <h2>Не знаете к какому специалисту обратиться?</h2>
+                <p>Наши администраторы помогут подобрать подходящего врача и удобное время для консультации</p>
+                <div class="consultation-buttons">
+                    <button class="btn btn--primary btn--large" onclick="redirectToBooking()">
+                        <i class="fas fa-calendar-plus"></i>
+                        Записаться на консультацию
+                    </button>
+                    <button class="btn btn--outline btn--large" onclick="scrollToContacts()">
+                        <i class="fas fa-phone"></i>
+                        Позвонить нам
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Main Hero Section -->
+    <section class="back-to-main">
+        <div class="back-to-main__background">
+            <div class="back-to-main__overlay"></div>
+        </div>
+        <div class="container">
+            <div class="back-to-main__content">
+                <h2 class="back-to-main__title">Вернуться на главную страницу</h2>
+                <p class="back-to-main__subtitle">Познакомьтесь с нашей командой и услугами</p>
+                <div class="back-to-main__button">
+                    <a href="/" class="btn btn--primary btn--large">
+                        <i class="fas fa-home"></i>
+                        На главную
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function scrollToContacts() {
+        window.location.href = '/#contacts';
+    }
+</script>
+{% endblock %}

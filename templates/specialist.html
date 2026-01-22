@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}{{ specialist.full_name }} - Центр психотерапии "Крылья"{% endblock %}
+
+{% block content %}
+    <!-- Specialist Detail Section -->
+    <section class="specialist-detail">
+        <div class="container">
+            <div class="specialist-detail__content">
+                <!-- Specialist Header -->
+                <div class="specialist-detail__header"
+                     data-career-start="{{ specialist.career_start_year }}"
+                     data-clinic-start="{{ specialist.clinic_start_date }}">
+                    <div class="specialist-detail__photo">
+                        <img src="/static/images/specialists/{{ specialist.photo }}" alt="{{ specialist.full_name }}" onerror="this.parentElement.innerHTML='Фото';">
+                    </div>
+                    <div class="specialist-detail__info">
+                        <h1 class="specialist-detail__name">{{ specialist.full_name }}</h1>
+                        <p class="specialist-detail__position">{{ specialist.position }}</p>
+
+                        <div class="specialist-detail__specializations">
+                            <h3>Специализация</h3>
+                            <div class="specialization-tags">
+                                {% for spec in specialist.specializations[:5] %}
+                                <span class="specialization-tag">{{ spec }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="specialist-detail__experience">
+                            <div class="experience-item">
+                                <p>Стаж работы</p>
+                                <span><span class="experience-total">вычисляется...</span> (из них <span class="experience-clinic">вычисляется...</span> в клинике «Крылья»)</span>
+                            </div>
+                        </div>
+
+                        <div class="specialist-detail__actions">
+                            <button class="btn btn--primary btn--large" onclick="redirectToBooking()">
+                                <i class="fas fa-calendar-plus"></i>
+                                Записаться на прием
+                            </button>
+                            <button class="btn btn--outline btn--large" onclick="scrollToContacts()">
+                                <i class="fas fa-phone"></i>
+                                Контактная информация
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specialist Description -->
+                <div class="specialist-detail__description">
+                    <h2>О специалисте</h2>
+                    <div class="specialist-detail__text">
+                        {{ specialist.description | safe }}
+                    </div>
+                </div>
+
+                <!-- Education Section -->
+                {% if specialist.education %}
+                <div class="specialist-detail__education">
+                    <h2>Образование и повышение квалификации</h2>
+                    <div class="education-list">
+                        {% for item in specialist.education %}
+                        <div class="education-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <p>{{ item }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Work Experience Section -->
+                {% if specialist.work_experience %}
+                <div class="specialist-detail__work-experience">
+                    <h2>Опыт работы</h2>
+                    <div class="work-list">
+                        {% for item in specialist.work_experience %}
+                        <div class="work-item">
+                            <i class="fas fa-briefcase"></i>
+                            <p>{{ item }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Specializations Section -->
+                {% if specialist.specializations and specialist.specializations|length > 2 %}
+                <div class="specialist-detail__specializations--boxed">
+                    <h2>Специализация</h2>
+                    <div class="specializations-list">
+                        {% for item in specialist.specializations %}
+                        <div class="specialization-item">
+                            <i class="fas fa-check-circle"></i>
+                            <p>{{ item }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Problems Section -->
+                {% if specialist.problems %}
+                <div class="specialist-detail__problems">
+                    <h2>Какие проблемы решаю?</h2>
+                    <div class="problems-list">
+                        {% for item in specialist.problems %}
+                        <div class="problem-item">
+                            <i class="fas fa-user-md"></i>
+                            <p>{{ item }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Family Therapy Requests Section -->
+                {% if specialist.family_therapy_requests %}
+                <div class="specialist-detail__problems">
+                    <h2>Запросы в рамках семейной психотерапии</h2>
+                    <div class="problems-list">
+                        {% for item in specialist.family_therapy_requests %}
+                        <div class="problem-item">
+                            <i class="fas fa-heart"></i>
+                            <p>{{ item }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Main Hero Section -->
+    <section class="back-to-main">
+        <div class="back-to-main__background">
+            <div class="back-to-main__overlay"></div>
+        </div>
+        <div class="container">
+            <div class="back-to-main__content">
+                <h2 class="back-to-main__title">Вернуться на главную страницу</h2>
+                <p class="back-to-main__subtitle">Познакомьтесь с нашей командой и услугами</p>
+                <div class="back-to-main__button">
+                    <a href="/" class="btn btn--primary btn--large">
+                        <i class="fas fa-home"></i>
+                        На главную
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function scrollToContacts() {
+        window.location.href = '/#contacts';
+    }
+</script>
+{% endblock %}
