@@ -184,7 +184,7 @@
 
 /* Specialist Detail Page */
 .specialist-detail {
-    padding: 10rem 0 6rem 0;
+    padding: 8rem 0 6rem 0;
     background: #fafafa;
     min-height: 100vh;
 }
@@ -280,6 +280,28 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+/* На мобильных устройствах центрируем теги */
+@media (max-width: 768px) {
+    .specialization-tags {
+        justify-content: center;
+    }
+
+    .specialist-detail__specializations h3 {
+        text-align: center;
+    }
+
+    /* Центрируем стаж работы */
+    .specialist-detail__experience {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .specialist-detail__experience .experience-item {
+        align-items: center;
+    }
 }
 
 .specialization-tag {
@@ -507,7 +529,7 @@
 
 /* All Specialists Page */
 .all-specialists {
-    padding: 10rem 0 6rem 0;
+    padding: 8rem 0 6rem 0;
     background: #fafafa;
     min-height: 100vh;
 }
@@ -557,11 +579,24 @@
 /* Back to Main Section */
 .back-to-main {
     position: relative;
-    min-height: 70vh;
+    min-height: calc(100vh - 100px - 130px);
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, #2D452D 0%, #1e3a1e 100%);
     overflow: hidden;
+}
+
+/* Для мобильных устройств учитываем большую шапку */
+@media (max-width: 768px) {
+    .back-to-main {
+        min-height: calc(100vh - 120px - 180px);
+    }
+}
+
+@media (max-width: 480px) {
+    .back-to-main {
+        min-height: calc(100vh - 140px - 200px);
+    }
 }
 
 .back-to-main__background {
@@ -630,6 +665,14 @@
 
 /* Responsive Design for Specialist Pages */
 @media (max-width: 768px) {
+    .specialist-detail {
+        padding-top: 7rem;
+    }
+
+    .all-specialists {
+        padding-top: 7rem;
+    }
+
     .specialist-detail__header {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -643,10 +686,6 @@
     }
 
     .specialist-detail__actions {
-        justify-content: center;
-    }
-
-    .specialist-detail__specializations {
         justify-content: center;
     }
 
@@ -700,7 +739,7 @@
     }
 
     .back-to-main {
-        min-height: 60vh;
+        /* Наследуется из основного правила */
     }
 
     .back-to-main__title {
@@ -720,11 +759,11 @@
 
 @media (max-width: 480px) {
     .specialist-detail {
-        padding: 4rem 0;
+        padding: 6rem 0 4rem 0;
     }
 
     .all-specialists {
-        padding: 8rem 0 4rem 0;
+        padding: 6rem 0 4rem 0;
     }
 
     .specialist-detail__header {
@@ -780,7 +819,7 @@
     }
 
     .back-to-main {
-        min-height: 50vh;
+        /* Наследуется из основного правила */
     }
 
     .back-to-main__title {

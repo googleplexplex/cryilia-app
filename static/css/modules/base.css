@@ -29,6 +29,19 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Увеличиваем отступ для мобильных устройств */
+@media (max-width: 768px) {
+    html {
+        scroll-padding-top: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        scroll-padding-top: 120px;
+    }
+}
+
 body::-webkit-scrollbar {
     width: 0px;
     background: transparent;

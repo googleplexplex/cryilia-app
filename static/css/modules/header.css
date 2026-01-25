@@ -94,8 +94,10 @@
     align-items: center;
 }
 
-/* Промежуточная адаптивность для шапки */
-@media (max-width: 950px) {
+/* Адаптивность для шапки - поэтапное скрытие кнопок справа налево */
+
+/* 1. Скрываем кнопку записи */
+@media (max-width: 940px) {
     .header__auth {
         display: none;
     }
@@ -103,15 +105,120 @@
     .nav {
         gap: 1.5rem;
     }
+
+    /* Уменьшаем логотип на планшетах */
+    .logo__image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .logo__title {
+        font-size: 1.5rem;
+    }
+
+    .logo__subtitle {
+        font-size: 0.75rem;
+    }
+
+    .nav__link {
+        font-size: 0.9rem;
+    }
 }
 
-@media (max-width: 768px) {
-    .header__content {
-        flex-direction: column;
-        gap: 1rem;
+/* 2. Скрываем "Контакты" */
+@media (max-width: 680px) {
+    .nav__link[href="/#contacts"] {
+        display: none;
+    }
+}
+
+/* 3. Скрываем "О нас" */
+@media (max-width: 600px) {
+    .nav__link[href="/#about"] {
+        display: none;
+    }
+
+    /* Еще больше уменьшаем логотип */
+    .logo__image {
+        width: 45px;
+        height: 45px;
+    }
+
+    .logo__title {
+        font-size: 1.3rem;
+    }
+
+    .logo__subtitle {
+        font-size: 0.7rem;
+    }
+}
+
+/* 4. Скрываем "Услуги" */
+@media (max-width: 520px) {
+    .nav__link[href="/#services"] {
+        display: none;
+    }
+}
+
+/* 5. Скрываем "Специалисты" */
+@media (max-width: 450px) {
+    .nav__link[href="/specialists"] {
+        display: none;
     }
 
     .nav {
         gap: 1rem;
+    }
+
+    /* Минимальный размер логотипа на телефонах */
+    .logo__image {
+        width: 40px;
+        height: 40px;
+        border-width: 2px;
+    }
+
+    .logo__title {
+        font-size: 1.2rem;
+    }
+
+    .logo__subtitle {
+        font-size: 0.65rem;
+    }
+
+    .nav__link {
+        font-size: 0.85rem;
+    }
+}
+
+/* 6. Для очень маленьких экранов центрируем логотип */
+@media (max-width: 280px) {
+    .header__content {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem 0;
+        text-align: center;
+    }
+
+    .logo {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .nav {
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    .logo__image {
+        width: 35px;
+        height: 35px;
+    }
+
+    .logo__title {
+        font-size: 1.1rem;
+    }
+
+    .logo__subtitle {
+        font-size: 0.6rem;
     }
 }
