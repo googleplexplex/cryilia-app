@@ -122,7 +122,7 @@
 
 .testimonials__header {
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: 2rem;
 }
 
 .testimonial-card {
@@ -140,10 +140,11 @@
 }
 
 .testimonials__title {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: #2D452D;
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 .testimonials__subtitle {
@@ -986,8 +987,8 @@
         font-size: 2rem;
     }
 
-    .section__title {
-        font-size: 2rem;
+    .testimonials__title {
+        font-size: 1.5rem;
     }
 
     .service-card {
