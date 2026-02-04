@@ -41,12 +41,25 @@
 /* Special styling for hero services button */
 .hero .btn--outline {
     color: white;
-    border: 2px solid white;
+    border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
 .hero .btn--outline:hover {
     background: white;
     color: #2D452D;
+}
+
+/* White button for hero section */
+.btn--white {
+    background: white;
+    color: #2D452D;
+    border: none;
+}
+
+.btn--white:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .btn--large {

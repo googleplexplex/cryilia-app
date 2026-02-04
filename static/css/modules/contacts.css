@@ -108,6 +108,13 @@
     flex: 1;
 }
 
+/* Prevent address text from wrapping - scale down instead */
+.contact-list__value a[href^="https://yandex.ru/maps"] {
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+}
+
 /* Clickable contact links */
 .contact-list__value a[href^="tel:"],
 .contact-list__value a[href^="https://yandex.ru/maps"] {
@@ -248,6 +255,11 @@
 
     .contact-list__value {
         text-align: left;
+    }
+
+    /* Scale down address text on mobile */
+    .contact-list__value a[href^="https://yandex.ru/maps"] {
+        font-size: 0.9rem;
     }
 
     .contacts__widgets {

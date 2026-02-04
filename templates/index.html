@@ -9,16 +9,28 @@
 {% block content %}
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero__background">
-            <div class="hero__overlay"></div>
-        </div>
         <div class="container">
             <div class="hero__content">
-                <h2 class="hero__title">Профессиональная психологическая помощь в Туле</h2>
-                <p class="hero__subtitle">Опытные специалисты, современные методы лечения, анонимность и конфиденциальность</p>
-                <div class="hero__buttons">
-                    <button class="btn btn--primary btn--large" onclick="scrollToServices()">Наши услуги</button>
-                    <button class="btn btn--outline btn--large" onclick="scrollToSpecialists()">Выбрать специалиста</button>
+                <div class="hero__image">
+                    <img src="/static/all_fotos/IMG_0490_resized.jpg?v=2" alt="Команда центра Крылья">
+                </div>
+                <div class="hero__text">
+                    <h2 class="hero__title">Профессиональная психологическая помощь в Туле</h2>
+                    <p class="hero__subtitle">Опытные специалисты, современные методы лечения, анонимность и конфиденциальность</p>
+                    <div class="hero__buttons">
+                        <button class="btn btn--white btn--large" onclick="scrollToServices()">Наши услуги</button>
+                        <button class="btn btn--outline btn--large" onclick="scrollToSpecialists()">Выбрать специалиста</button>
+                    </div>
+                    <div class="hero__contacts">
+                        <a href="tel:+79202736637" class="hero__contact">
+                            <i class="fas fa-phone"></i>
+                            +7 (920) 273-66-37
+                        </a>
+                        <a href="https://yandex.ru/maps/-/CLR0vKYw" target="_blank" class="hero__contact">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Тула, ул. Бундурина, 40
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,33 +123,54 @@
         <div class="container">
             <h2 class="section__title">Наши услуги</h2>
             <div class="services__grid">
-                <div class="service-card" onclick="openServiceModal('consultation')" style="cursor: pointer;">
+                <div class="service-card" onclick="openServiceModal('group-therapy')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="service-card__title">Групповая терапия</h3>
+                    <p class="service-card__description">Терапевтические группы в поддерживающей атмосфере</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('individual-therapy')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="service-card__title">Индивидуальная терапия</h3>
+                    <p class="service-card__description">Личная работа с психологом над вашими запросами</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('teenagers')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3 class="service-card__title">Работа с подростками</h3>
+                    <p class="service-card__description">Специализированная помощь подросткам и родителям</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('psychiatry')" style="cursor: pointer;">
                     <div class="service-card__icon">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3 class="service-card__title">Консультации</h3>
-                    <p class="service-card__description">Первичная диагностика, подбор лечения, наблюдение</p>
+                    <h3 class="service-card__title">Психиатрическая помощь</h3>
+                    <p class="service-card__description">Консультации психиатра, диагностика и лечение</p>
                 </div>
-                <div class="service-card" onclick="openServiceModal('psychotherapy')" style="cursor: pointer;">
-                    <div class="service-card__icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h3 class="service-card__title">Психотерапия</h3>
-                    <p class="service-card__description">Индивидуальная и семейная психотерапия</p>
-                </div>
-                <div class="service-card" onclick="openServiceModal('child')" style="cursor: pointer;">
-                    <div class="service-card__icon">
-                        <i class="fas fa-child"></i>
-                    </div>
-                    <h3 class="service-card__title">Детская психиатрия</h3>
-                    <p class="service-card__description">Специализированная помощь детям и подросткам</p>
-                </div>
-                <div class="service-card" onclick="openServiceModal('home')" style="cursor: pointer;">
+                <div class="service-card" onclick="openServiceModal('family')" style="cursor: pointer;">
                     <div class="service-card__icon">
                         <i class="fas fa-home"></i>
                     </div>
-                    <h3 class="service-card__title">Выезд на дом</h3>
-                    <p class="service-card__description">Консультации в комфортной домашней обстановке</p>
+                    <h3 class="service-card__title">Семейное консультирование</h3>
+                    <p class="service-card__description">Разрешение семейных конфликтов и улучшение отношений</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('complex')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3 class="service-card__title">Комплексная консультация</h3>
+                    <p class="service-card__description">Совместный прием психолога и психиатра</p>
+                </div>
+                <div class="service-card" onclick="openServiceModal('home-visit')" style="cursor: pointer;">
+                    <div class="service-card__icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="service-card__title">Выезд психиатра на дом</h3>
+                    <p class="service-card__description">Консультация в комфортной домашней обстановке</p>
                 </div>
             </div>
         </div>
@@ -316,7 +349,7 @@
                                 <i class="fas fa-star testimonial-card__star"></i>
                             </div>
                             <div class="testimonial-card__text">
-                                "Хожу к <a href="/specialist/minaeva-alina-aleksandrovna" class="specialist-link">Алине</a> порядка полугода, за это время во мне произошли кардинальные перемены, я пересмотрела взгляды на многие вещи, в целом жить стало гораздо проще и комфортнее. В начале, буду откровенной, боялась записываться к молодому специалисту, но сейчас понимаю, что все опасения были напрасны, <a href="/specialist/minaeva-alina-aleksandrovna" class="specialist-link">Алина</a> никогда не навязывает свою точку зрения, всегда отзывчива и, конечно, эмпатична."
+                                "Хожу к <a href="/specialist/minaeva-alina-dmitrievna" class="specialist-link">Алине</a> порядка полугода, за это время во мне произошли кардинальные перемены, я пересмотрела взгляды на многие вещи, в целом жить стало гораздо проще и комфортнее. В начале, буду откровенной, боялась записываться к молодому специалисту, но сейчас понимаю, что все опасения были напрасны, <a href="/specialist/minaeva-alina-dmitrievna" class="specialist-link">Алина</a> никогда не навязывает свою точку зрения, всегда отзывчива и, конечно, эмпатична."
                             </div>
                             <a href="https://vk.com/center_of_psychology_tula" target="_blank" class="testimonial-card__service">ВКонтакте</a>
                         </div>
@@ -586,7 +619,7 @@
             <div class="carousel-2 owl-carousel">
                 <a href="#link">
                     <div class="owl-pic">
-                        <img src="/static/all_fotos/IMG_0490_resized.jpg" alt="Фасад клиники" />
+                        <img src="/static/all_fotos/IMG_0490_resized.jpg?v=2" alt="Фасад клиники" />
                     </div>
                 </a>
                 <a href="#link">
@@ -656,28 +689,12 @@
                             <div class="contact-list__item">
                                 <span class="contact-list__label">Телефон</span>
                                 <span class="contact-list__value">
-                                    <a href="tel:+79051196949">+7 (905) 119-69-49</a>
+                                    <a href="tel:+79202736637">+7 (920) 273-66-37</a>
                                 </span>
                             </div>
                             <div class="contact-list__item">
                                 <span class="contact-list__label">Режим работы</span>
                                 <span class="contact-list__value">Пн-Сб: 9:00-21:00</span>
-                            </div>
-                        </div>
-
-                        <!-- Виджет VK -->
-                        <div class="contacts__widgets">
-                            <div class="contacts__widget">
-                                <a href="https://vk.com/center_of_psychology_tula" target="_blank" style="text-decoration: none; color: inherit;">
-                                    <h3 class="contacts__widget-title">Наша группа ВКонтакте</h3>
-                                </a>
-                                <div class="contacts__vk-container">
-                                    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
-                                    <div id="vk_groups"></div>
-                                    <script type="text/javascript">
-                                    VK.Widgets.Group("vk_groups", {mode: 4, width: "auto", height: "400", color1: 'FFFFFF', color2: '2B587A', color3: '5B84A4'}, 225740964);
-                                    </script>
-                                </div>
                             </div>
                         </div>
                     </div>

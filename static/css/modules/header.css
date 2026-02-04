@@ -65,11 +65,18 @@
 }
 
 .logo__subtitle {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: #6b7280;
     font-weight: 400;
     position: relative;
     top: -0.25rem;
+    line-height: 1;
+    display: block;
+}
+
+.logo__subtitle-line2 {
+    display: block;
+    margin-top: 0.25em;
 }
 
 .nav {
@@ -81,11 +88,13 @@
     text-decoration: none;
     color: #374151;
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .nav__link:hover {
     color: #2D452D;
+    transform: translateY(-2px);
 }
 
 .header__auth {
@@ -97,7 +106,7 @@
 /* Адаптивность для шапки - поэтапное скрытие кнопок справа налево */
 
 /* 1. Скрываем кнопку записи */
-@media (max-width: 940px) {
+@media (max-width: 995px) {
     .header__auth {
         display: none;
     }
@@ -126,14 +135,14 @@
 }
 
 /* 2. Скрываем "Контакты" */
-@media (max-width: 680px) {
+@media (max-width: 735px) {
     .nav__link[href="/#contacts"] {
         display: none;
     }
 }
 
 /* 3. Скрываем "О нас" */
-@media (max-width: 600px) {
+@media (max-width: 655px) {
     .nav__link[href="/#about"] {
         display: none;
     }
@@ -154,14 +163,14 @@
 }
 
 /* 4. Скрываем "Услуги" */
-@media (max-width: 520px) {
+@media (max-width: 575px) {
     .nav__link[href="/#services"] {
         display: none;
     }
 }
 
 /* 5. Скрываем "Специалисты" */
-@media (max-width: 450px) {
+@media (max-width: 505px) {
     .nav__link[href="/specialists"] {
         display: none;
     }

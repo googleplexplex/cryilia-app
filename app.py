@@ -48,6 +48,7 @@ SPECIALISTS = {
         'career_start_year': 2001,
         'clinic_start_date': '2024-04-01',
         'photo': 'ivashinenko.jpg',
+        'dikidi_url': 'https://dikidi.app/ru/profile/centr_psixoterapii_i_psixologicheskogo_konsultirovaniya_krylya_1806947/master/3882377',
         'description': '''
             <p>Кандидат медицинских наук, доцент. Специальность: врач-психиатр, врач-психотерапевт со стажем работы 24 года.</p>
             <p>В 2003 году решением диссертационного совета Рязанского государственного медицинского университета им. акад. И.П. Павлова присуждена учёная степень кандидата медицинских наук. В 2017 году присвоено учёное звание доцента по специальности «Психиатрия».</p>
@@ -101,6 +102,7 @@ SPECIALISTS = {
         'career_start_year': 2003,
         'clinic_start_date': '2024-04-01',
         'photo': 'ivashinenko-lyubov.jpg',
+        'dikidi_url': 'https://dikidi.app/ru/profile/centr_psixoterapii_i_psixologicheskogo_konsultirovaniya_krylya_1806947/master/3882347',
         'description': '''
             <p><strong>Ивашиненко Любовь Владимировна</strong> — клинический психолог, сексолог, транзактный аналитик, CTA(p). Член ЕАТА, СОТА, главный внештатный педагог-психолог Тулы и Тульской области.</p>
 
@@ -186,6 +188,7 @@ SPECIALISTS = {
         'career_start_year': 2010,
         'clinic_start_date': '2024-10-01',
         'photo': 'ershova.jpg',
+        'dikidi_url': 'https://dikidi.app/ru/profile/centr_psixoterapii_i_psixologicheskogo_konsultirovaniya_krylya_1806947/master/3882373',
         'description': '''
             <p><strong>Ершова Юлия Геннадиевна</strong> — врач-психиатр, психотерапевт с более чем 15-летним опытом работы.</p>
 
@@ -238,6 +241,7 @@ SPECIALISTS = {
         'career_start_year': 2022,
         'clinic_start_date': '2024-10-01',
         'photo': 'krempovskaya.jpg',
+        'dikidi_url': 'https://dikidi.app/ru/profile/centr_psixoterapii_i_psixologicheskogo_konsultirovaniya_krylya_1806947/master/3882367',
         'description': '''
             <p><strong>Кремповская Елизавета Сергеевна</strong> — возрастной психолог, оператор горячей линии экстренной психологической помощи. В работе использую интегративный подход, ориентируясь на индивидуальные потребности каждого человека.</p>
 
@@ -290,6 +294,7 @@ SPECIALISTS = {
         'career_start_year': 2021,
         'clinic_start_date': '2024-01-01',
         'photo': 'minaeva.jpg',
+        'dikidi_url': 'https://dikidi.app/ru/profile/centr_psixoterapii_i_psixologicheskogo_konsultirovaniya_krylya_1806947/master/3882369',
         'description': '''
             <p><strong>Минаева Алина Дмитриевна</strong> — квалифицированный детский и семейный психолог, преподаватель Тульского государственного университета.</p>
 
@@ -365,6 +370,7 @@ SPECIALISTS = {
         'career_start_year': 2023,
         'clinic_start_date': '2025-03-01',
         'photo': 'nosova.jpg',
+        'dikidi_url': 'https://dikidi.app/ru/profile/centr_psixoterapii_i_psixologicheskogo_konsultirovaniya_krylya_1806947/master/3890626',
         'description': '''
             <p><strong>Носова Инна Евгеньевна</strong> — нейропсихолог Центра психотерапии и психологического консультирования «Крылья» с 20-летним профессиональным стажем.</p>
 
