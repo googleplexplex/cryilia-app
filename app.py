@@ -18,7 +18,6 @@ logging.basicConfig(
     level=getattr(logging, config_class.LOG_LEVEL),
     format=config_class.LOG_FORMAT,
     handlers=[
-        logging.FileHandler(os.path.join(log_dir, config_class.LOG_FILE), encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
