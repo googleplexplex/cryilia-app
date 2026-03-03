@@ -105,6 +105,15 @@
     transform: translateY(-2px);
 }
 
+.hero__license {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.75rem;
+    margin-top: 0.01rem;
+    text-align: center;
+}
+
 /* Tablet styles */
 @media (max-width: 1024px) {
     .hero {
