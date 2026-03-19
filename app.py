@@ -532,6 +532,20 @@ def specialist_detail(specialist_id):
         raise
 
 # ============================================
+# SEO FILES
+# ============================================
+
+@app.route('/robots.txt')
+def robots_txt():
+    """Отдаёт robots.txt для поисковых систем"""
+    return send_from_directory('.', 'robots.txt', mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    """Отдаёт sitemap.xml для поисковых систем"""
+    return send_from_directory('.', 'sitemap.xml', mimetype='application/xml')
+
+# ============================================
 # AJAX API ENDPOINTS
 # ============================================
 
