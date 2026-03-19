@@ -545,6 +545,11 @@ def sitemap_xml():
     """Отдаёт sitemap.xml для поисковых систем"""
     return send_from_directory('.', 'sitemap.xml', mimetype='application/xml')
 
+@app.route('/yandex_262044e7fdddd5ca.html')
+def yandex_verification():
+    """Отдаёт файл подтверждения для Яндекс.Вебмастера"""
+    return send_from_directory('.', 'yandex_262044e7fdddd5ca.html', mimetype='text/html')
+
 # ============================================
 # AJAX API ENDPOINTS
 # ============================================
