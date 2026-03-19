@@ -1,0 +1,20 @@
+# robots.txt для психологического центра "Крылья"
+
+User-agent: *
+Allow: /
+
+# Запрещаем индексацию служебных файлов
+Disallow: /static/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /cabinet/
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://cryiliya.ru/sitemap.xml
+
+# Закрываем дубликаты и технические страницы
+Disallow: /search/
+Disallow: /auth/
+Disallow: /register/
+Disallow: /password-reset/

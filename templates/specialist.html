@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ specialist.full_name }} - Центр психотерапии "Крылья"{% endblock %}
+{% block title %}{{ specialist.full_name }} - Центр психотерапии «Крылья»{% endblock %}
 
 {% block content %}
     <!-- Specialist Detail Section -->
@@ -103,7 +103,7 @@
                 <!-- Problems Section -->
                 {% if specialist.problems %}
                 <div class="specialist-detail__problems">
-                    <h2>Какие проблемы решаю?</h2>
+                    <h2>Я могу помочь, если:</h2>
                     <div class="problems-list">
                         {% for item in specialist.problems %}
                         <div class="problem-item">
@@ -112,6 +112,11 @@
                         </div>
                         {% endfor %}
                     </div>
+                    {% if specialist.problems_footer %}
+                    <div class="problems-footer" style="margin-top: 2rem; padding: 1.5rem; background-color: #f9fafb; border-radius: 8px;">
+                        <p style="margin: 0; color: #374151; line-height: 1.7;">{{ specialist.problems_footer }}</p>
+                    </div>
+                    {% endif %}
                 </div>
                 {% endif %}
 

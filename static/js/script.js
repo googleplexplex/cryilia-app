@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            // Skip modal booking button
+            if (this.id === 'modalBookingButton') {
+                return;
+            }
             e.preventDefault();
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
@@ -314,6 +318,7 @@ const servicesData = {
     'group-therapy': {
         icon: 'fa-users',
         title: 'Групповая терапия',
+        bookingUrl: 'https://dikidi.app/1806947?p=2.pi-ssm-si&o=7&s=19170779',
         description: `
             <p>Групповая психотерапия — это эффективный формат работы, где участники получают поддержку от терапевта и друг от друга. В группе вы поймете, что не одни в своих переживаниях, и получите новые инструменты для решения проблем.</p>
         `,
@@ -343,6 +348,7 @@ const servicesData = {
     'individual-therapy': {
         icon: 'fa-user',
         title: 'Индивидуальная терапия',
+        bookingUrl: 'https://dikidi.app/1806947?p=2.pi-ssm-si&s=19170779',
         description: `
             <p>Индивидуальная психотерапия — это конфиденциальная работа с психологом один на один. Это пространство, где вы можете открыто обсудить свои переживания, найти новые способы решения проблем и развить личностный потенциал.</p>
         `,
@@ -374,6 +380,7 @@ const servicesData = {
     'teenagers': {
         icon: 'fa-user-graduate',
         title: 'Работа с подростками',
+        bookingUrl: 'https://dikidi.app/1806947?p=2.pi-ssm-si&s=19215545',
         description: `
             <p>Подростковый возраст — сложный период и для самих подростков, и для их родителей. Мы помогаем наладить отношения в семье, поддерживаем подростков в решении их проблем и помогаем родителям лучше понимать своих детей.</p>
         `,
@@ -402,6 +409,7 @@ const servicesData = {
     'psychiatry': {
         icon: 'fa-brain',
         title: 'Психиатрическая помощь',
+        bookingUrl: 'https://dikidi.app/1806947?p=2.pi-ssm-si&s=19215566',
         description: `
             <p>Консультация психиатра — это медицинская помощь при психических расстройствах. Наш врач проведет диагностику, поставит точный диагноз и подберет эффективное лечение.</p>
         `,
@@ -432,6 +440,7 @@ const servicesData = {
     'family': {
         icon: 'fa-home',
         title: 'Семейное консультирование',
+        bookingUrl: 'https://dikidi.app/1806947?p=2.pi-ssm-si&s=19218210',
         description: `
             <p>Семейная терапия помогает участникам семьи услышать и понять друг друга, разрешить конфликты и наладить теплые отношения. Мы работаем со всеми типами семей и помогаем найти конструктивные решения.</p>
         `,
@@ -462,6 +471,7 @@ const servicesData = {
     'complex': {
         icon: 'fa-user-md',
         title: 'Комплексная консультация',
+        bookingUrl: 'https://dikidi.app/1806947?p=2.pi-ssm-si&s=19250468',
         description: `
             <p>Совместный прием психолога и психиатра дает наиболее полную картину вашего состояния и позволяет разработать комплексную программу помощи, сочетающую медикаментозное лечение и психотерапию.</p>
         `,
@@ -490,6 +500,7 @@ const servicesData = {
     'home-visit': {
         icon: 'fa-car',
         title: 'Выезд психиатра на дом',
+        bookingUrl: 'tel:+79202736637',
         description: `
             <p>Если вам трудно посетить клинику, мы готовы приехать к вам. Психиатр проведет консультацию в домашних условиях в комфортной для вас обстановке.</p>
         `,
@@ -528,6 +539,18 @@ function openServiceModal(serviceKey) {
     document.getElementById('modalTitle').textContent = service.title;
     document.getElementById('modalDescription').innerHTML = service.description;
     document.getElementById('modalDetails').innerHTML = service.details;
+
+    // Update booking button href
+    const bookingButton = document.getElementById('modalBookingButton');
+    if (bookingButton) {
+        bookingButton.href = service.bookingUrl;
+        // Remove target for tel: links
+        if (service.bookingUrl.startsWith('tel:')) {
+            bookingButton.removeAttribute('target');
+        } else {
+            bookingButton.target = '_blank';
+        }
+    }
 
     // Show modal with animation
     modal.style.display = 'flex';
