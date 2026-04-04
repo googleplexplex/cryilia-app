@@ -6,6 +6,7 @@
     <title>{% block title %}Клиника «Крылья» - Психиатрическая помощь в Туле{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modules/cookie-banner.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -42,7 +43,22 @@
         <i class="fab fa-telegram-plane"></i>
     </a>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-banner__container">
+            <div class="cookie-banner__content">
+                <p class="cookie-banner__text">
+                    Наш сайт использует cookie‑файлы и Яндекс Метрику для анализа посещаемости. Нажимая "Принять", вы даете согласие на обработку ваших персональных данных в соответствии с <a href="https://disk.yandex.ru/i/25bzEiQ-dDAUnQ" target="_blank" class="cookie-banner__link">Политикой обработки персональных данных</a>
+                </p>
+            </div>
+            <button id="cookieAccept" class="cookie-banner__button">
+                Принять
+            </button>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modules/cookie-banner.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
