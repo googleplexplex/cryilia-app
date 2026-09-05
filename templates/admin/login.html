@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в редактор статей{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container admin-login">
+        <div class="admin-login__card">
+            <h1>Редактор статей</h1>
+            <form method="post" class="admin-form" style="padding: 0; box-shadow: none;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div>
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                <div class="admin-form__actions">
+                    <button type="submit" class="btn btn--primary">Войти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

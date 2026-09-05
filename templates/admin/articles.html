@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Статьи — редактор{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-header">
+            <h1>Статьи</h1>
+            <div class="admin-header__actions">
+                <a href="{{ url_for('admin_topics') }}" class="btn btn--outline">Темы</a>
+                <a href="{{ url_for('admin_videos') }}" class="btn btn--outline">Видео</a>
+                <a href="{{ url_for('admin_gallery') }}" class="btn btn--outline">Галерея</a>
+                <a href="{{ url_for('admin_article_new') }}" class="btn btn--primary">
+                    <i class="fas fa-plus"></i>
+                    Новая статья
+                </a>
+                <form method="post" action="{{ url_for('admin_logout') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn--outline">Выйти</button>
+                </form>
+            </div>
+        </div>
+
+        {% if articles %}
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Заголовок</th>
+                        <th>Статус</th>
+                        <th>Обновлена</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td>
+                            <div class="admin-table__title-cell">
+                                {% if article.cover_url %}
+                                <img class="admin-table__thumb" src="{{ article.cover_url }}" alt="">
+                                {% endif %}
+                                <div>
+                                    <strong>{{ article.title }}</strong>
+                                    <div class="admin-form__hint">
+                                        /articles/{{ article.slug }}
+                                        {% if article.topic_title %} · {{ article.topic_title }}{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if article.is_published %}
+                            <span class="admin-status admin-status--on">Опубликована</span>
+                            {% else %}
+                            <span class="admin-status admin-status--off">Черновик</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ article.updated_at | article_date }}</td>
+                        <td>
+                            <div class="admin-table__actions">
+                                <a href="{{ url_for('article_detail', slug=article.slug) }}" class="btn btn--outline" target="_blank">Открыть</a>
+                                <a href="{{ url_for('admin_article_edit', article_id=article.id) }}" class="btn btn--primary">Править</a>
+                                <form method="post" action="{{ url_for('admin_article_delete', article_id=article.id) }}" onsubmit="return confirm('Удалить эту статью?');">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn--danger">Удалить</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="articles-empty">
+            <p>Статей пока нет. Создайте первую.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

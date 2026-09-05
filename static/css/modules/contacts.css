@@ -65,21 +65,82 @@
     border: none;
 }
 
-.contacts__telegram-container {
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f8f9fa;
-    padding: 0.5rem;
-    max-height: 500px;
-    overflow-y: auto;
+.max-widget {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.25rem;
+    min-height: 300px;
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0)) ,
+        linear-gradient(145deg, #4b1fff 0%, #6e1aff 42%, #9500ff 100%);
+    box-shadow: 0 12px 28px rgba(71, 26, 255, 0.22);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.contacts__telegram-container iframe {
-    max-height: 450px;
+.max-widget:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(71, 26, 255, 0.3);
 }
 
-.contacts__telegram-container [data-telegram-post] {
-    max-height: 450px !important;
+.max-widget__head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.max-widget__logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 6px 16px rgba(13, 0, 26, 0.25);
+    background: #471AFF;
+}
+
+.max-widget__name {
+    display: block;
+    color: #fff;
+    font-size: 1.15rem;
+    line-height: 1.3;
+}
+
+.max-widget__handle {
+    display: block;
+    margin-top: 0.2rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.9rem;
+}
+
+.max-widget__text {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.6;
+    font-size: 0.98rem;
+}
+
+.max-widget__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #471AFF;
+    font-weight: 700;
+}
+
+.max-widget__btn img {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    object-fit: cover;
 }
 
 .contact-list__item {

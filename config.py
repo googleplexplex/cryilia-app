@@ -1,4 +1,15 @@
 import os
+from datetime import timedelta
+from pathlib import Path
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parent / '.env')
+except ImportError:
+    pass
+
+BASE_DIR = Path(__file__).resolve().parent
+
 
 class Config:
     """Базовый класс конфигурации"""
@@ -14,6 +25,7 @@ class Config:
     # Загрузка файлов
     UPLOAD_FOLDER = 'static/images'
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB
+    GALLERY_UPLOAD_DIR = os.environ.get('GALLERY_UPLOAD_DIR') or str(BASE_DIR / 'data' / 'uploads')
 
     # Логирование
     LOG_LEVEL = 'INFO'
@@ -24,6 +36,15 @@ class Config:
     # Хост и порт для запуска
     HOST = '0.0.0.0'
     PORT = 5000
+
+    # Статьи (SQLite). На сервере лучше задать путь вне копируемых папок.
+    ARTICLES_DB_PATH = os.environ.get('ARTICLES_DB_PATH') or str(BASE_DIR / 'data' / 'articles.db')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or ''
+    SITE_URL = os.environ.get('SITE_URL', 'https://cryiliya.ru').rstrip('/')
+
+    PERMANENT_SESSION_LIFETIME = timedelta(hours=12)
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
 
 
 class DevelopmentConfig(Config):
@@ -49,6 +70,7 @@ class ProductionConfig(Config):
 
     # Более длительное кэширование в продакшене
     CACHE_DEFAULT_TIMEOUT = 600  # 10 минут
+    SESSION_COOKIE_SECURE = True
 
 
 class TestingConfig(Config):

@@ -29,6 +29,16 @@
 <body>
     {% include 'components/header.html' %}
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-stack" role="status">
+                {% for category, message in messages %}
+                    <div class="flash flash--{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     {% block content %}{% endblock %}
 
     {% include 'components/footer.html' %}
@@ -38,9 +48,9 @@
         <i class="fab fa-vk"></i>
     </a>
 
-    <!-- Floating Telegram Button -->
-    <a href="https://t.me/center_psychology71" target="_blank" class="telegram-float" title="Написать в Telegram">
-        <i class="fab fa-telegram-plane"></i>
+    <!-- Floating MAX Button -->
+    <a href="https://max.ru/id7100040828_biz" target="_blank" rel="noopener" class="max-float" title="Написать в MAX">
+        <img src="{{ url_for('static', filename='images/max-mark.svg') }}" alt="MAX">
     </a>
 
     <!-- Cookie Consent Banner -->

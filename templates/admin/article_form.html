@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_new %}Новая статья{% else %}Редактирование статьи{% endif %}{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-header">
+            <h1>{% if is_new %}Новая статья{% else %}Редактирование{% endif %}</h1>
+            <div class="admin-header__actions">
+                <a href="{{ url_for('admin_topics') }}" class="btn btn--outline">Темы</a>
+                <a href="{{ url_for('admin_videos') }}" class="btn btn--outline">Видео</a>
+                <a href="{{ url_for('admin_gallery') }}" class="btn btn--outline">Галерея</a>
+                <a href="{{ url_for('admin_articles') }}" class="btn btn--outline">К списку</a>
+            </div>
+        </div>
+
+        <form method="post" class="admin-form" id="articleForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div>
+                <label for="title">Заголовок</label>
+                <input type="text" id="title" name="title" required maxlength="200" value="{{ article.title if article else '' }}">
+            </div>
+
+            <div>
+                <label for="slug">Адрес страницы (slug)</label>
+                <input type="text" id="slug" name="slug" maxlength="80" value="{{ article.slug if article else '' }}" {% if article and article.slug %}data-manual="1"{% endif %} placeholder="naprimer-trevoga">
+                <p class="admin-form__hint">Если оставить пустым, адрес создастся из заголовка. Страница будет: /articles/ваш-адрес</p>
+            </div>
+
+            <div>
+                <label for="topic_id">Тема</label>
+                <select id="topic_id" name="topic_id">
+                    <option value="">Без темы</option>
+                    {% for topic in topics %}
+                    <option value="{{ topic.id }}" {% if article and article.topic_id == topic.id %}selected{% endif %}>{{ topic.title }}</option>
+                    {% endfor %}
+                </select>
+                <p class="admin-form__hint">Темы создаются на <a href="{{ url_for('admin_topics') }}">отдельной странице</a>. У статьи может быть только одна тема.</p>
+            </div>
+
+            <div>
+                <label for="excerpt">Краткое описание</label>
+                <textarea id="excerpt" name="excerpt" maxlength="1000" placeholder="Показывается в списке статей">{{ article.excerpt if article else '' }}</textarea>
+            </div>
+
+            <div>
+                <label for="meta_keywords">Метатеги (ключевые слова)</label>
+                <input type="text" id="meta_keywords" name="meta_keywords" maxlength="500" value="{{ article.meta_keywords if article else '' }}" placeholder="психолог тула, панические атаки, тревога">
+                <p class="admin-form__hint">Слова и фразы через запятую. Попадут в скрытый тег &lt;meta name="keywords"&gt; в коде страницы статьи.</p>
+            </div>
+
+            <div>
+                <label for="cover_url">Обложка (ссылка на картинку)</label>
+                <input type="text" id="cover_url" name="cover_url" maxlength="2000" value="{{ article.cover_url if article else '' }}" placeholder="/uploads/имя-файла.jpg">
+                <p class="admin-form__hint">Скопируйте ссылку из <a href="{{ url_for('admin_gallery') }}" target="_blank">галереи</a> или вставьте http(s)-адрес картинки.</p>
+                <div class="admin-cover-preview" id="coverPreview" hidden>
+                    <img id="coverPreviewImg" alt="Предпросмотр обложки">
+                </div>
+            </div>
+
+            <div>
+                <label for="body_html">Текст статьи</label>
+                <textarea id="body_html" name="body_html">{{ article.body_html if article else '' }}</textarea>
+            </div>
+
+            <label class="admin-form__check">
+                <input type="checkbox" name="is_published" value="1" {% if article and article.is_published %}checked{% endif %}>
+                Опубликовать на сайте
+            </label>
+
+            <div class="admin-form__actions">
+                <button type="submit" class="btn btn--primary btn--large">Сохранить</button>
+                <a href="{{ url_for('admin_articles') }}" class="btn btn--outline btn--large">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#body_html',
+        menubar: false,
+        branding: false,
+        height: 480,
+        convert_urls: false,
+        plugins: 'lists link image autolink table',
+        toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image | table | removeformat',
+        block_formats: 'Параграф=p; Заголовок 2=h2; Заголовок 3=h3; Заголовок 4=h4',
+        content_style: 'body { font-family: Inter, sans-serif; font-size: 16px; }'
+    });
+
+    document.getElementById('articleForm').addEventListener('submit', function () {
+        if (window.tinymce) {
+            tinymce.triggerSave();
+        }
+    });
+
+    (function () {
+        const titleInput = document.getElementById('title');
+        const slugInput = document.getElementById('slug');
+        let slugManual = slugInput.getAttribute('data-manual') === '1' || Boolean(slugInput.value);
+
+        slugInput.addEventListener('input', function () {
+            slugManual = Boolean(slugInput.value);
+        });
+
+        const map = {
+            'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y',
+            'к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f',
+            'х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'
+        };
+
+        function toSlug(value) {
+            return value.toLowerCase().split('').map(function (ch) {
+                if (map[ch] !== undefined) return map[ch];
+                if (/[a-z0-9]/.test(ch)) return ch;
+                return '-';
+            }).join('').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+        }
+
+        titleInput.addEventListener('input', function () {
+            if (!slugManual) {
+                slugInput.value = toSlug(titleInput.value);
+            }
+        });
+    })();
+
+    (function () {
+        const input = document.getElementById('cover_url');
+        const preview = document.getElementById('coverPreview');
+        const image = document.getElementById('coverPreviewImg');
+
+        function isSafeCover(url) {
+            return /^(https?:\/\/|\/static\/|\/uploads\/)/i.test(url);
+        }
+
+        function updatePreview() {
+            const url = (input.value || '').trim();
+            if (isSafeCover(url)) {
+                image.src = url;
+                preview.hidden = false;
+            } else {
+                image.removeAttribute('src');
+                preview.hidden = true;
+            }
+        }
+
+        image.addEventListener('error', function () {
+            preview.hidden = true;
+        });
+        input.addEventListener('input', updatePreview);
+        updatePreview();
+    })();
+</script>
+{% endblock %}

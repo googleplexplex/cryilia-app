@@ -1,0 +1,22 @@
+# игнорируем всё
+/*
+
+# разрешаем только нужное
+!.gitignore
+!app.py
+!config.py
+!db.py
+!media.py
+!requirements.txt
+!robots.txt
+!.env.example
+!templates/
+!static/
+!all_fotos/
+!logs/
+!scripts/
+!scripts/**
+
+# но реальные логи не версионим
+*.log
+

@@ -60,6 +60,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentYearElement) {
         currentYearElement.textContent = new Date().getFullYear();
     }
+
+    const flashStack = document.querySelector('.flash-stack');
+    if (flashStack) {
+        const hideAfter = flashStack.querySelector('.flash--error') ? 6000 : 4000;
+        setTimeout(function() {
+            flashStack.querySelectorAll('.flash').forEach(function(flash) {
+                flash.classList.add('flash--hide');
+            });
+            setTimeout(function() {
+                flashStack.remove();
+            }, 400);
+        }, hideAfter);
+    }
 });
 
 // Scroll to sections
@@ -161,12 +174,16 @@ const testimonials = [];
 // Initialize testimonials
 function initTestimonials() {
     const testimonialCards = document.querySelectorAll('.testimonial-card');
+    if (!testimonialCards.length) {
+        return false;
+    }
     testimonialCards.forEach((card, index) => {
         testimonials.push(card);
     });
 
     // Show first testimonial and update dots
     showTestimonial(0);
+    return true;
 }
 
 // Show specific testimonial (show 3 at once)
@@ -300,7 +317,9 @@ function stopTestimonialAutoplay() {
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize testimonials
     setTimeout(() => {
-        initTestimonials();
+        if (!initTestimonials()) {
+            return;
+        }
 
         // Start auto-play
         startTestimonialAutoplay();
@@ -863,3 +882,4 @@ async function loadSpecialistCards() {
     }
 }
 */
+

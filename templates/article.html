@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block head %}
+    {% if article.excerpt %}
+    <meta name="description" content="{{ article.excerpt | striptags }}">
+    {% endif %}
+    {% if article.meta_keywords %}
+    <meta name="keywords" content="{{ article.meta_keywords }}">
+    {% endif %}
+    {% if article.cover_url %}
+    <meta property="og:image" content="{{ article.cover_url }}">
+    {% endif %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": {{ article.title | tojson }},
+      "description": {{ (article.excerpt or '') | tojson }},
+      "datePublished": {{ article.created_at | tojson }},
+      "dateModified": {{ article.updated_at | tojson }},
+      {% if article.cover_url %}"image": {{ article.cover_url | tojson }},{% endif %}
+      "publisher": {
+        "@type": "MedicalBusiness",
+        "name": "Крылья - Центр психотерапии и психологического консультирования",
+        "url": "https://cryiliya.ru"
+      },
+      "mainEntityOfPage": "https://cryiliya.ru/articles/{{ article.slug }}"
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+<section class="article-page">
+    <div class="container">
+        <header class="article-page__header">
+            {% if not article.is_published %}
+            <span class="article-draft-note">Черновик — виден только вам</span>
+            {% endif %}
+            <div class="article-meta">
+                {{ article.created_at | article_date }}
+                {% if article.topic_title %}
+                · <a href="{{ url_for('articles_list', topic=article.topic_slug) }}">{{ article.topic_title }}</a>
+                {% endif %}
+            </div>
+            <h1 class="article-page__title">{{ article.title }}</h1>
+            {% if article.excerpt %}
+            <p class="article-page__excerpt">{{ article.excerpt }}</p>
+            {% endif %}
+            {% if article.cover_url %}
+            <div class="article-page__cover">
+                <img src="{{ article.cover_url }}" alt="{{ article.title }}">
+            </div>
+            {% endif %}
+        </header>
+
+        <article class="article-body">
+            {{ article.body_html | safe }}
+        </article>
+
+        <div class="article-page__back">
+            <a href="{{ url_for('articles_list') }}" class="btn btn--outline">Все статьи</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

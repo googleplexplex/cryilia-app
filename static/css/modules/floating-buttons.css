@@ -2,38 +2,38 @@
    FLOATING BUTTONS
    ============================================ */
 
-/* Floating Telegram Button */
-.telegram-float {
+/* Floating MAX Button */
+.max-float {
     position: fixed;
     bottom: 30px;
     right: 30px;
     width: 60px;
     height: 60px;
-    background: #0088cc;
+    background: linear-gradient(135deg, #00BFFF 0%, #471AFF 48%, #9500FF 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(0, 136, 204, 0.3);
+    box-shadow: 0 4px 20px rgba(71, 26, 255, 0.35);
     text-decoration: none;
     transition: all 0.3s ease;
     z-index: 9999;
     overflow: hidden;
 }
 
-.telegram-float:hover {
+.max-float:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(0, 136, 204, 0.5);
-    background: #0099ee;
+    box-shadow: 0 6px 30px rgba(149, 0, 255, 0.45);
 }
 
-.telegram-float i {
-    color: white;
-    font-size: 28px;
+.max-float img {
+    width: 32px;
+    height: 32px;
+    display: block;
     transition: transform 0.3s ease;
 }
 
-.telegram-float:hover i {
+.max-float:hover img {
     transform: scale(1.1);
 }
 
@@ -74,15 +74,16 @@
 
 /* Responsive for mobile */
 @media (max-width: 768px) {
-    .telegram-float {
+    .max-float {
         bottom: 20px;
         right: 20px;
         width: 50px;
         height: 50px;
     }
 
-    .telegram-float i {
-        font-size: 24px;
+    .max-float img {
+        width: 26px;
+        height: 26px;
     }
 
     .vk-float {
@@ -98,15 +99,16 @@
 }
 
 @media (max-width: 480px) {
-    .telegram-float {
+    .max-float {
         bottom: 15px;
         right: 15px;
         width: 45px;
         height: 45px;
     }
 
-    .telegram-float i {
-        font-size: 20px;
+    .max-float img {
+        width: 22px;
+        height: 22px;
     }
 
     .vk-float {

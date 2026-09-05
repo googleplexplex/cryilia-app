@@ -1,0 +1,5 @@
+# Положить в crontab -e от пользователя, у которого есть права на data/ и /var/backups/cryiliya
+# и у которого настроен rclone (обычно тот же пользователь, что запускает сайт, либо root).
+
+SHELL=/bin/bash
+15 3 * * * /bin/bash /opt/cryiliya/scripts/backup.sh >> /var/log/cryiliya-backup.log 2>&1

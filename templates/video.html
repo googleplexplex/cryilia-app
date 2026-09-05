@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ video.title }}{% endblock %}
+
+{% block head %}
+    {% if video.excerpt %}
+    <meta name="description" content="{{ video.excerpt | striptags }}">
+    {% endif %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": {{ video.title | tojson }},
+      "description": {{ (video.excerpt or video.description or '') | tojson }},
+      "embedUrl": {{ (video.embed_url or '') | tojson }},
+      "url": "https://cryiliya.ru/videos/{{ video.slug }}",
+      "uploadDate": {{ video.created_at | tojson }},
+      "publisher": {
+        "@type": "MedicalBusiness",
+        "name": "Крылья - Центр психотерапии и психологического консультирования",
+        "url": "https://cryiliya.ru"
+      }
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+<section class="video-page">
+    <div class="container">
+        <header class="video-page__header">
+            <div class="article-meta">{{ video.created_at | article_date }}</div>
+            <h1 class="video-page__title">{{ video.title }}</h1>
+        </header>
+
+        {% if video.embed_html %}
+        {% with page=True %}{% include 'components/video_player.html' %}{% endwith %}
+        {% endif %}
+
+        {% if video.description %}
+        <div class="video-page__description">{{ video.description | nl2br }}</div>
+        {% elif video.excerpt %}
+        <div class="video-page__description">{{ video.excerpt }}</div>
+        {% endif %}
+
+        <div class="video-page__back">
+            <a href="{{ url_for('videos_list') }}" class="btn btn--outline">Все видео</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

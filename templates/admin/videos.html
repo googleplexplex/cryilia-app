@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Видео — редактор{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-header">
+            <h1>Видео</h1>
+            <div class="admin-header__actions">
+                <a href="{{ url_for('admin_articles') }}" class="btn btn--outline">Статьи</a>
+                <a href="{{ url_for('admin_topics') }}" class="btn btn--outline">Темы</a>
+                <a href="{{ url_for('admin_gallery') }}" class="btn btn--outline">Галерея</a>
+                <a href="{{ url_for('admin_video_new') }}" class="btn btn--primary">
+                    <i class="fas fa-plus"></i>
+                    Новое видео
+                </a>
+                <form method="post" action="{{ url_for('admin_logout') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn--outline">Выйти</button>
+                </form>
+            </div>
+        </div>
+
+        <p class="admin-form__hint" style="margin-bottom: 1.5rem;">Ролики на сервере не хранятся — вставляется HTML-код экспорта из ВК. Порядок здесь задаёт список на странице «Видео». На главной показываются три последних добавленных.</p>
+
+        {% if videos %}
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Порядок</th>
+                        <th>Название</th>
+                        <th>Обновлено</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for video in videos %}
+                    <tr>
+                        <td>
+                            <div class="admin-table__order">
+                                <form method="post" action="{{ url_for('admin_video_move', video_id=video.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="direction" value="up">
+                                    <button type="submit" class="btn btn--outline" {% if loop.first %}disabled{% endif %} aria-label="Выше">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </button>
+                                </form>
+                                <form method="post" action="{{ url_for('admin_video_move', video_id=video.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="direction" value="down">
+                                    <button type="submit" class="btn btn--outline" {% if loop.last %}disabled{% endif %} aria-label="Ниже">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        <td>
+                            <strong>{{ video.title }}</strong>
+                            <div class="admin-form__hint">/videos/{{ video.slug }}</div>
+                        </td>
+                        <td>{{ video.updated_at | article_date }}</td>
+                        <td>
+                            <div class="admin-table__actions">
+                                <a href="{{ url_for('video_detail', slug=video.slug) }}" class="btn btn--outline" target="_blank">Открыть</a>
+                                <a href="{{ url_for('admin_video_edit', video_id=video.id) }}" class="btn btn--primary">Править</a>
+                                <form method="post" action="{{ url_for('admin_video_delete', video_id=video.id) }}" onsubmit="return confirm('Удалить это видео?');">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn--danger">Удалить</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="articles-empty">
+            <p>Видео пока нет. Добавьте первое.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

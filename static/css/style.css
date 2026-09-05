@@ -25,8 +25,14 @@
 /* Contacts & Footer - Contact info, map, footer */
 @import url('modules/contacts.css');
 
+/* Articles & admin editor */
+@import url('modules/articles.css');
+
+/* Videos — public pages, homepage block, VK player */
+@import url('modules/videos.css');
+
 /* Forms & Modals - All forms and modal windows */
 @import url('modules/forms.css');
 
-/* Floating Buttons - VK and Telegram */
+/* Floating Buttons - VK and MAX */
 @import url('modules/floating-buttons.css');

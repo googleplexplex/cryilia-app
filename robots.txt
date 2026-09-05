@@ -6,6 +6,7 @@ Allow: /
 # Запрещаем индексацию служебных файлов
 Disallow: /static/
 Disallow: /api/
+Disallow: /admin/
 
 # Sitemap
 Sitemap: https://cryiliya.ru/sitemap.xml

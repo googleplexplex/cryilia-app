@@ -1,11 +1,53 @@
-from flask import Flask, render_template, send_from_directory, request, jsonify
+from flask import (
+    Flask, render_template, send_from_directory, request, jsonify,
+    session, redirect, url_for, flash, abort,
+)
 from flask_caching import Cache
 import os
 import re
+import hmac
+import time
 import logging
-from werkzeug.exceptions import NotFound
+import secrets
+from functools import wraps
+from xml.sax.saxutils import escape as xml_escape
+import html
+from markupsafe import Markup
+from werkzeug.exceptions import NotFound, HTTPException
 from datetime import datetime
 from config import get_config
+from media import save_upload, list_uploads, delete_upload
+from db import (
+    init_db,
+    list_articles,
+    list_published_articles,
+    get_article,
+    get_article_by_slug,
+    ensure_unique_slug,
+    create_article,
+    update_article,
+    delete_article,
+    slugify,
+    sanitize_html,
+    sanitize_cover_url,
+    sanitize_meta_keywords,
+    list_topics,
+    get_topic,
+    get_topic_by_slug,
+    create_topic,
+    update_topic,
+    delete_topic,
+    sanitize_embed_html,
+    list_videos,
+    list_latest_videos,
+    get_video,
+    get_video_by_slug,
+    ensure_unique_video_slug,
+    create_video,
+    update_video,
+    delete_video,
+    move_video,
+)
 
 # Получаем конфигурацию
 config_class = get_config()
@@ -37,6 +79,12 @@ cache = Cache(app, config=cache_config)
 
 # Убедимся, что директория для загрузки существует
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['GALLERY_UPLOAD_DIR'], exist_ok=True)
+
+with app.app_context():
+    init_db()
+
+_login_attempts = {}
 
 # Specialists data (in correct order: 1. Дмитрий Михайлович, 2. Любовь Владимировна, 3. Юлия Геннадиевна)
 SPECIALISTS = {
@@ -504,6 +552,150 @@ def format_text_with_line_breaks(text):
 
     return formatted_text
 
+
+def get_csrf_token():
+    token = session.get('csrf_token')
+    if not token:
+        token = secrets.token_urlsafe(32)
+        session['csrf_token'] = token
+    return token
+
+
+def csrf_ok():
+    submitted = request.form.get('csrf_token', '')
+    expected = session.get('csrf_token', '')
+    return bool(expected) and hmac.compare_digest(submitted, expected)
+
+
+def client_ip():
+    forwarded = request.headers.get('X-Forwarded-For', '')
+    if forwarded:
+        return forwarded.split(',')[0].strip()
+    return request.remote_addr or 'unknown'
+
+
+def login_blocked(ip):
+    now = time.time()
+    window = 15 * 60
+    attempts = [stamp for stamp in _login_attempts.get(ip, []) if now - stamp < window]
+    _login_attempts[ip] = attempts
+    return len(attempts) >= 8
+
+
+def record_failed_login(ip):
+    _login_attempts.setdefault(ip, []).append(time.time())
+
+
+def admin_required(view):
+    @wraps(view)
+    def wrapped(*args, **kwargs):
+        if not session.get('is_admin'):
+            return redirect(url_for('admin_login', next=request.path))
+        return view(*args, **kwargs)
+    return wrapped
+
+
+def parse_article_form():
+    title = (request.form.get('title') or '').strip()
+    excerpt = (request.form.get('excerpt') or '').strip()
+    raw_slug = (request.form.get('slug') or '').strip()
+    body_html = sanitize_html(request.form.get('body_html') or '')
+    cover_url = sanitize_cover_url(request.form.get('cover_url') or '')
+    meta_keywords = sanitize_meta_keywords(request.form.get('meta_keywords') or '')
+    raw_topic = (request.form.get('topic_id') or '').strip()
+    topic_id = int(raw_topic) if raw_topic.isdigit() else None
+    is_published = request.form.get('is_published') == '1'
+
+    errors = []
+    if not title:
+        errors.append('Укажите заголовок статьи')
+    if len(title) > 200:
+        errors.append('Заголовок слишком длинный')
+    if len(excerpt) > 1000:
+        errors.append('Краткое описание слишком длинное')
+    if cover_url is None:
+        errors.append('Обложка: укажите http(s)-ссылку или путь вида /static/...')
+        cover_url = (request.form.get('cover_url') or '').strip()
+    if len(meta_keywords) > 500:
+        errors.append('Список ключевых слов слишком длинный')
+    if topic_id is not None and not get_topic(topic_id):
+        errors.append('Выбранная тема не найдена')
+        topic_id = None
+
+    slug = slugify(raw_slug or title)
+    return {
+        'title': title[:200],
+        'excerpt': excerpt[:1000],
+        'slug': slug,
+        'body_html': body_html,
+        'cover_url': cover_url,
+        'meta_keywords': meta_keywords,
+        'topic_id': topic_id,
+        'is_published': is_published,
+        'errors': errors,
+    }
+
+
+def parse_video_form():
+    title = (request.form.get('title') or '').strip()
+    excerpt = (request.form.get('excerpt') or '').strip()
+    description = (request.form.get('description') or '').strip()
+    raw_slug = (request.form.get('slug') or '').strip()
+    embed_html = (request.form.get('embed_html') or '').strip()
+
+    errors = []
+    if not title:
+        errors.append('Укажите название ролика')
+    if len(title) > 200:
+        errors.append('Название слишком длинное')
+    if len(excerpt) > 1000:
+        errors.append('Краткое описание слишком длинное')
+    if len(description) > 8000:
+        errors.append('Полное описание слишком длинное')
+    if len(embed_html) > 4000:
+        errors.append('Код экспорта слишком длинный')
+    embed, vk_url, vk_hash, embed_error = sanitize_embed_html(embed_html)
+    if embed_error:
+        errors.append(embed_error)
+
+    slug = slugify(raw_slug or title)
+    if slug == 'statya' and not (raw_slug or title):
+        slug = 'video'
+
+    return {
+        'title': title[:200],
+        'excerpt': excerpt[:1000],
+        'description': description[:8000],
+        'slug': slug,
+        'embed_html': embed or embed_html,
+        'vk_url': vk_url,
+        'vk_hash': vk_hash,
+        'errors': errors,
+    }
+
+
+@app.context_processor
+def inject_globals():
+    return {'csrf_token': get_csrf_token}
+
+
+@app.template_filter('article_date')
+def article_date_filter(value):
+    if not value:
+        return ''
+    try:
+        return datetime.strptime(str(value)[:19], '%Y-%m-%d %H:%M:%S').strftime('%d.%m.%Y')
+    except ValueError:
+        return str(value)[:10]
+
+
+@app.template_filter('nl2br')
+def nl2br_filter(value):
+    text = re.sub(r'<br\s*/?>', '\n', str(value or ''), flags=re.I)
+    escaped = html.escape(text, quote=False)
+    return Markup(escaped.replace('\n', '<br>\n'))
+
+
 # Error handlers
 @app.errorhandler(404)
 def not_found_error(error):
@@ -517,6 +709,8 @@ def internal_error(error):
 
 @app.errorhandler(Exception)
 def handle_exception(error):
+    if isinstance(error, HTTPException):
+        return error
     logger.error(f'Unhandled Exception: {str(error)}', exc_info=True)
     return render_template('errors/500.html'), 500
 
@@ -525,11 +719,10 @@ def static_files(filename):
     return send_from_directory(app.static_folder, filename)
 
 @app.route('/')
-@cache.cached(timeout=300, key_prefix='index')
 def index():
     """Главная страница"""
     logger.info('Index page accessed')
-    return render_template('index.html')
+    return render_template('index.html', home_videos=list_latest_videos(3))
 
 @app.route('/specialists')
 @cache.cached(timeout=300, key_prefix='specialists_list')
@@ -570,6 +763,427 @@ def specialist_detail(specialist_id):
         logger.error(f'Error in specialist_detail for {specialist_id}: {str(e)}', exc_info=True)
         raise
 
+
+# ============================================
+# ARTICLES
+# ============================================
+
+@app.route('/articles')
+def articles_list():
+    topic_slug = (request.args.get('topic') or '').strip()
+    active_topic = get_topic_by_slug(topic_slug) if topic_slug else None
+    articles = list_published_articles(topic_slug=active_topic['slug'] if active_topic else None)
+    return render_template(
+        'articles.html',
+        articles=articles,
+        topics=list_topics(),
+        active_topic=active_topic,
+    )
+
+
+@app.route('/articles/<slug>')
+def article_detail(slug):
+    published_only = not session.get('is_admin')
+    article = get_article_by_slug(slug, published_only=published_only)
+    if not article:
+        abort(404)
+    article = dict(article)
+    article['body_html'] = sanitize_html(article.get('body_html') or '')
+    return render_template('article.html', article=article)
+
+
+@app.route('/videos')
+def videos_list():
+    return render_template('videos.html', videos=list_videos())
+
+
+@app.route('/videos/<slug>')
+def video_detail(slug):
+    video = get_video_by_slug(slug)
+    if not video:
+        abort(404)
+    return render_template('video.html', video=video)
+
+
+@app.route('/admin')
+def admin_index():
+    if session.get('is_admin'):
+        return redirect(url_for('admin_articles'))
+    return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if session.get('is_admin'):
+        return redirect(url_for('admin_articles'))
+
+    configured_password = (app.config.get('ADMIN_PASSWORD') or '').strip()
+    ip = client_ip()
+
+    if request.method == 'POST':
+        if not csrf_ok():
+            flash('Сессия устарела, попробуйте ещё раз', 'error')
+            return redirect(url_for('admin_login'))
+
+        if not configured_password:
+            flash('Админка не настроена: задайте ADMIN_PASSWORD в .env', 'error')
+            return render_template('admin/login.html')
+
+        if login_blocked(ip):
+            logger.warning(f'Admin login blocked for IP {ip}')
+            flash('Слишком много попыток входа. Подождите 15 минут.', 'error')
+            return render_template('admin/login.html'), 429
+
+        password = request.form.get('password') or ''
+        if hmac.compare_digest(
+            password.encode('utf-8'),
+            configured_password.encode('utf-8'),
+        ):
+            session.clear()
+            session.permanent = True
+            session['is_admin'] = True
+            session['csrf_token'] = secrets.token_urlsafe(32)
+            logger.info(f'Admin logged in from {ip}')
+            next_url = request.args.get('next') or url_for('admin_articles')
+            if not next_url.startswith('/admin'):
+                next_url = url_for('admin_articles')
+            return redirect(next_url)
+
+        record_failed_login(ip)
+        logger.warning(f'Failed admin login from {ip}')
+        flash('Неверный пароль', 'error')
+
+    return render_template('admin/login.html')
+
+
+@app.route('/admin/logout', methods=['POST'])
+def admin_logout():
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_articles'))
+    session.clear()
+    flash('Вы вышли из редактора', 'success')
+    return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/articles')
+@admin_required
+def admin_articles():
+    return render_template('admin/articles.html', articles=list_articles())
+
+
+@app.route('/admin/topics')
+@admin_required
+def admin_topics():
+    return render_template('admin/topics.html', topics=list_topics())
+
+
+@app.route('/admin/topics/new', methods=['POST'])
+@admin_required
+def admin_topic_new():
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_topics'))
+    topic_id, error = create_topic(request.form.get('title') or '')
+    if error:
+        flash(error, 'error')
+    else:
+        logger.info(f'Topic created: id={topic_id}')
+        flash('Тема добавлена', 'success')
+    return redirect(url_for('admin_topics'))
+
+
+@app.route('/admin/topics/<int:topic_id>/edit', methods=['POST'])
+@admin_required
+def admin_topic_edit(topic_id):
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_topics'))
+    error = update_topic(topic_id, request.form.get('title') or '')
+    if error:
+        flash(error, 'error')
+    else:
+        flash('Тема сохранена', 'success')
+    return redirect(url_for('admin_topics'))
+
+
+@app.route('/admin/topics/<int:topic_id>/delete', methods=['POST'])
+@admin_required
+def admin_topic_delete(topic_id):
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_topics'))
+    if delete_topic(topic_id):
+        logger.info(f'Topic deleted: id={topic_id}')
+        flash('Тема удалена. У статей она снята.', 'success')
+    else:
+        flash('Тема не найдена', 'error')
+    return redirect(url_for('admin_topics'))
+
+
+@app.route('/admin/articles/new', methods=['GET', 'POST'])
+@admin_required
+def admin_article_new():
+    if request.method == 'POST':
+        if not csrf_ok():
+            flash('Сессия устарела, попробуйте ещё раз', 'error')
+            return redirect(url_for('admin_article_new'))
+
+        data = parse_article_form()
+        if data['errors']:
+            for message in data['errors']:
+                flash(message, 'error')
+            return render_template(
+                'admin/article_form.html',
+                article=data,
+                is_new=True,
+                topics=list_topics(),
+            )
+
+        slug = ensure_unique_slug(data['slug'])
+        article_id = create_article(
+            title=data['title'],
+            slug=slug,
+            excerpt=data['excerpt'],
+            body_html=data['body_html'],
+            cover_url=data['cover_url'],
+            meta_keywords=data['meta_keywords'],
+            topic_id=data['topic_id'],
+            is_published=data['is_published'],
+        )
+        logger.info(f'Article created: id={article_id} slug={slug}')
+        flash('Статья сохранена', 'success')
+        return redirect(url_for('admin_articles'))
+
+    return render_template(
+        'admin/article_form.html',
+        article=None,
+        is_new=True,
+        topics=list_topics(),
+    )
+
+
+@app.route('/admin/articles/<int:article_id>/edit', methods=['GET', 'POST'])
+@admin_required
+def admin_article_edit(article_id):
+    article = get_article(article_id)
+    if not article:
+        abort(404)
+
+    if request.method == 'POST':
+        if not csrf_ok():
+            flash('Сессия устарела, попробуйте ещё раз', 'error')
+            return redirect(url_for('admin_article_edit', article_id=article_id))
+
+        data = parse_article_form()
+        if data['errors']:
+            for message in data['errors']:
+                flash(message, 'error')
+            data['id'] = article_id
+            return render_template(
+                'admin/article_form.html',
+                article=data,
+                is_new=False,
+                topics=list_topics(),
+            )
+
+        slug = ensure_unique_slug(data['slug'], exclude_id=article_id)
+        update_article(
+            article_id=article_id,
+            title=data['title'],
+            slug=slug,
+            excerpt=data['excerpt'],
+            body_html=data['body_html'],
+            cover_url=data['cover_url'],
+            meta_keywords=data['meta_keywords'],
+            topic_id=data['topic_id'],
+            is_published=data['is_published'],
+        )
+        logger.info(f'Article updated: id={article_id} slug={slug}')
+        flash('Изменения сохранены', 'success')
+        return redirect(url_for('admin_articles'))
+
+    return render_template(
+        'admin/article_form.html',
+        article=article,
+        is_new=False,
+        topics=list_topics(),
+    )
+
+
+@app.route('/admin/articles/<int:article_id>/delete', methods=['POST'])
+@admin_required
+def admin_article_delete(article_id):
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_articles'))
+
+    article = get_article(article_id)
+    if not article:
+        abort(404)
+
+    delete_article(article_id)
+    logger.info(f'Article deleted: id={article_id} slug={article["slug"]}')
+    flash('Статья удалена', 'success')
+    return redirect(url_for('admin_articles'))
+
+
+@app.route('/uploads/<filename>')
+def serve_upload(filename):
+    """Отдаёт загруженные в галерею изображения"""
+    return send_from_directory(app.config['GALLERY_UPLOAD_DIR'], filename)
+
+
+@app.route('/admin/gallery', methods=['GET', 'POST'])
+@admin_required
+def admin_gallery():
+    if request.method == 'POST':
+        if not csrf_ok():
+            flash('Сессия устарела, попробуйте ещё раз', 'error')
+            return redirect(url_for('admin_gallery'))
+
+        files = request.files.getlist('images')
+        saved = 0
+        errors = []
+        for file_storage in files:
+            if not file_storage or not file_storage.filename:
+                continue
+            filename, error = save_upload(file_storage)
+            if error:
+                errors.append(f'{file_storage.filename}: {error}')
+            else:
+                saved += 1
+                logger.info(f'Gallery upload: {filename}')
+
+        if saved:
+            flash(f'Загружено изображений: {saved}', 'success')
+        if errors:
+            for message in errors:
+                flash(message, 'error')
+        if not saved and not errors:
+            flash('Выберите файлы для загрузки', 'error')
+        return redirect(url_for('admin_gallery'))
+
+    return render_template('admin/gallery.html', images=list_uploads())
+
+
+@app.route('/admin/gallery/<filename>/delete', methods=['POST'])
+@admin_required
+def admin_gallery_delete(filename):
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_gallery'))
+
+    if delete_upload(filename):
+        logger.info(f'Gallery delete: {filename}')
+        flash('Изображение удалено', 'success')
+    else:
+        flash('Не удалось удалить файл', 'error')
+    return redirect(url_for('admin_gallery'))
+
+
+@app.route('/admin/videos')
+@admin_required
+def admin_videos():
+    return render_template('admin/videos.html', videos=list_videos())
+
+
+@app.route('/admin/videos/new', methods=['GET', 'POST'])
+@admin_required
+def admin_video_new():
+    if request.method == 'POST':
+        if not csrf_ok():
+            flash('Сессия устарела, попробуйте ещё раз', 'error')
+            return redirect(url_for('admin_video_new'))
+
+        data = parse_video_form()
+        if data['errors']:
+            for message in data['errors']:
+                flash(message, 'error')
+            return render_template('admin/video_form.html', video=data, is_new=True)
+
+        slug = ensure_unique_video_slug(data['slug'])
+        video_id = create_video(
+            title=data['title'],
+            slug=slug,
+            excerpt=data['excerpt'],
+            description=data['description'],
+            embed_html=data['embed_html'],
+        )
+        logger.info(f'Video created: id={video_id} slug={slug}')
+        flash('Видео сохранено', 'success')
+        return redirect(url_for('admin_videos'))
+
+    return render_template('admin/video_form.html', video=None, is_new=True)
+
+
+@app.route('/admin/videos/<int:video_id>/edit', methods=['GET', 'POST'])
+@admin_required
+def admin_video_edit(video_id):
+    video = get_video(video_id)
+    if not video:
+        abort(404)
+
+    if request.method == 'POST':
+        if not csrf_ok():
+            flash('Сессия устарела, попробуйте ещё раз', 'error')
+            return redirect(url_for('admin_video_edit', video_id=video_id))
+
+        data = parse_video_form()
+        if data['errors']:
+            for message in data['errors']:
+                flash(message, 'error')
+            data['id'] = video_id
+            return render_template('admin/video_form.html', video=data, is_new=False)
+
+        slug = ensure_unique_video_slug(data['slug'], exclude_id=video_id)
+        update_video(
+            video_id=video_id,
+            title=data['title'],
+            slug=slug,
+            excerpt=data['excerpt'],
+            description=data['description'],
+            embed_html=data['embed_html'],
+        )
+        logger.info(f'Video updated: id={video_id} slug={slug}')
+        flash('Изменения сохранены', 'success')
+        return redirect(url_for('admin_videos'))
+
+    return render_template('admin/video_form.html', video=video, is_new=False)
+
+
+@app.route('/admin/videos/<int:video_id>/delete', methods=['POST'])
+@admin_required
+def admin_video_delete(video_id):
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_videos'))
+
+    video = get_video(video_id)
+    if not video:
+        abort(404)
+
+    delete_video(video_id)
+    logger.info(f'Video deleted: id={video_id} slug={video["slug"]}')
+    flash('Видео удалено', 'success')
+    return redirect(url_for('admin_videos'))
+
+
+@app.route('/admin/videos/<int:video_id>/move', methods=['POST'])
+@admin_required
+def admin_video_move(video_id):
+    if not csrf_ok():
+        flash('Сессия устарела, попробуйте ещё раз', 'error')
+        return redirect(url_for('admin_videos'))
+
+    direction = (request.form.get('direction') or '').strip()
+    if direction not in ('up', 'down') or not move_video(video_id, direction):
+        flash('Не удалось изменить порядок', 'error')
+    else:
+        flash('Порядок обновлён', 'success')
+    return redirect(url_for('admin_videos'))
+
+
 # ============================================
 # SEO FILES
 # ============================================
@@ -581,8 +1195,40 @@ def robots_txt():
 
 @app.route('/sitemap.xml')
 def sitemap_xml():
-    """Отдаёт sitemap.xml для поисковых систем"""
-    return send_from_directory('.', 'sitemap.xml', mimetype='application/xml')
+    """Генерирует sitemap.xml из страниц сайта и опубликованных статей"""
+    base = app.config.get('SITE_URL', 'https://cryiliya.ru').rstrip('/')
+    today = datetime.now().strftime('%Y-%m-%d')
+    urls = [
+        (f'{base}/', today, 'weekly', '1.0'),
+        (f'{base}/specialists', today, 'weekly', '0.9'),
+        (f'{base}/articles', today, 'weekly', '0.8'),
+        (f'{base}/videos', today, 'weekly', '0.8'),
+    ]
+    for specialist_id in SPECIALISTS:
+        urls.append((f'{base}/specialist/{specialist_id}', today, 'monthly', '0.8'))
+    for article in list_published_articles():
+        lastmod = str(article.get('updated_at') or today)[:10]
+        urls.append((f'{base}/articles/{article["slug"]}', lastmod, 'monthly', '0.7'))
+    for video in list_videos():
+        lastmod = str(video.get('updated_at') or today)[:10]
+        urls.append((f'{base}/videos/{video["slug"]}', lastmod, 'monthly', '0.6'))
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for loc, lastmod, changefreq, priority in urls:
+        lines.extend([
+            '    <url>',
+            f'        <loc>{xml_escape(loc)}</loc>',
+            f'        <lastmod>{xml_escape(lastmod)}</lastmod>',
+            f'        <changefreq>{changefreq}</changefreq>',
+            f'        <priority>{priority}</priority>',
+            '    </url>',
+        ])
+    lines.append('</urlset>')
+    body = '\n'.join(lines) + '\n'
+    return app.response_class(body, mimetype='application/xml')
 
 @app.route('/yandex_262044e7fdddd5ca.html')
 def yandex_verification():

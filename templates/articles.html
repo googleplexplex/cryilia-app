@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Статьи - Центр психотерапии «Крылья»{% endblock %}
+
+{% block head %}
+    <meta name="description" content="Статьи центра психотерапии и психологического консультирования «Крылья» в Туле.">
+{% endblock %}
+
+{% block content %}
+<section class="articles-page">
+    <div class="container">
+        <h1 class="section__title">Статьи</h1>
+        <p class="articles-page__intro">Материалы наших специалистов о психическом здоровье, терапии и поддержке.</p>
+
+        {% if topics %}
+        <nav class="article-topics" aria-label="Темы статей">
+            <a href="{{ url_for('articles_list') }}" class="article-topic-chip{% if not active_topic %} article-topic-chip--active{% endif %}">Все</a>
+            {% for topic in topics %}
+            <a href="{{ url_for('articles_list', topic=topic.slug) }}" class="article-topic-chip{% if active_topic and active_topic.id == topic.id %} article-topic-chip--active{% endif %}">{{ topic.title }}</a>
+            {% endfor %}
+        </nav>
+        {% endif %}
+
+        {% if articles %}
+        <div class="articles-grid">
+            {% for article in articles %}
+            <a href="{{ url_for('article_detail', slug=article.slug) }}" class="article-card">
+                {% if article.cover_url %}
+                <div class="article-card__cover">
+                    <img src="{{ article.cover_url }}" alt="{{ article.title }}" loading="lazy">
+                </div>
+                {% endif %}
+                <span class="article-card__date">
+                    {{ article.created_at | article_date }}
+                    {% if article.topic_title %} · {{ article.topic_title }}{% endif %}
+                </span>
+                <h2 class="article-card__title">{{ article.title }}</h2>
+                {% if article.excerpt %}
+                <p class="article-card__excerpt">{{ article.excerpt }}</p>
+                {% endif %}
+                <span class="article-card__more">Читать далее</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="articles-empty">
+            <p>{% if active_topic %}В этой теме пока нет статей.{% else %}Статьи скоро появятся.{% endif %}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

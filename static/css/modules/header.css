@@ -162,16 +162,20 @@
     }
 }
 
-/* 4. Скрываем "Услуги" */
+/* 4. Скрываем "Видео" */
 @media (max-width: 575px) {
-    .nav__link[href="/#services"] {
+    .nav__link[href="/videos"] {
         display: none;
     }
 }
 
-/* 5. Скрываем "Специалисты" и показываем кнопку записи */
+/* 5. Скрываем "Специалисты", "Статьи" и показываем кнопку записи */
 @media (max-width: 505px) {
     .nav__link[href="/specialists"] {
+        display: none;
+    }
+
+    .nav__link[href="/articles"] {
         display: none;
     }
 

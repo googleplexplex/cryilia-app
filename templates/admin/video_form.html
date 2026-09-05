@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_new %}Новое видео{% else %}Редактирование видео{% endif %}{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-header">
+            <h1>{% if is_new %}Новое видео{% else %}Редактирование{% endif %}</h1>
+            <div class="admin-header__actions">
+                <a href="{{ url_for('admin_articles') }}" class="btn btn--outline">Статьи</a>
+                <a href="{{ url_for('admin_gallery') }}" class="btn btn--outline">Галерея</a>
+                <a href="{{ url_for('admin_videos') }}" class="btn btn--outline">К списку</a>
+            </div>
+        </div>
+
+        <form method="post" class="admin-form" id="videoForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div>
+                <label for="title">Название</label>
+                <input type="text" id="title" name="title" required maxlength="200" value="{{ video.title if video else '' }}">
+            </div>
+
+            <div>
+                <label for="slug">Адрес страницы (slug)</label>
+                <input type="text" id="slug" name="slug" maxlength="80" value="{{ video.slug if video else '' }}" {% if video and video.slug %}data-manual="1"{% endif %} placeholder="naprimer-konsultaciya">
+                <p class="admin-form__hint">Если оставить пустым, адрес создастся из названия. Страница будет: /videos/ваш-адрес</p>
+            </div>
+
+            <div>
+                <label for="excerpt">Краткое описание</label>
+                <textarea id="excerpt" name="excerpt" maxlength="1000" rows="3">{{ video.excerpt if video else '' }}</textarea>
+                <p class="admin-form__hint">Показывается в списке всех видео и на главной странице.</p>
+            </div>
+
+            <div>
+                <label for="description">Полное описание</label>
+                <textarea id="description" name="description" maxlength="8000" class="admin-form__long">{{ video.description if video else '' }}</textarea>
+                <p class="admin-form__hint">Текст на отдельной странице ролика.</p>
+            </div>
+
+            <div>
+                <label for="embed_html">Код экспорта ВКонтакте</label>
+                <textarea id="embed_html" name="embed_html" required maxlength="4000" rows="5" placeholder='<iframe src="https://vkvideo.ru/video_ext.php?...">'>{{ video.embed_html if video else '' }}</textarea>
+                <p class="admin-form__hint">В ролике ВК: «Поделиться» → «Экспортировать», вставьте iframe целиком. Локально http-сайт не отдаёт Referer на vkvideo.ru, поэтому во вставке мы ставим vk.com — на проде и у себя плеер тогда одинаково открывается.</p>
+            </div>
+
+            {% if video and video.embed_html %}
+            {% include 'components/video_player.html' %}
+            {% endif %}
+
+            <div class="admin-form__actions">
+                <button type="submit" class="btn btn--primary">{% if is_new %}Создать{% else %}Сохранить{% endif %}</button>
+                <a href="{{ url_for('admin_videos') }}" class="btn btn--outline">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    const titleInput = document.getElementById('title');
+    const slugInput = document.getElementById('slug');
+    if (!titleInput || !slugInput) return;
+    let slugManual = slugInput.getAttribute('data-manual') === '1' || Boolean(slugInput.value);
+
+    slugInput.addEventListener('input', function () {
+        slugManual = Boolean(slugInput.value);
+    });
+
+    const map = {
+        'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y',
+        'к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f',
+        'х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'
+    };
+
+    function toSlug(value) {
+        return value.toLowerCase().split('').map(function (ch) {
+            if (map[ch] !== undefined) return map[ch];
+            if (/[a-z0-9]/.test(ch)) return ch;
+            return '-';
+        }).join('').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+    }
+
+    titleInput.addEventListener('input', function () {
+        if (!slugManual) {
+            slugInput.value = toSlug(titleInput.value);
+        }
+    });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Галерея — редактор{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-header">
+            <h1>Галерея</h1>
+            <div class="admin-header__actions">
+                <a href="{{ url_for('admin_articles') }}" class="btn btn--outline">Статьи</a>
+                <a href="{{ url_for('admin_topics') }}" class="btn btn--outline">Темы</a>
+                <a href="{{ url_for('admin_videos') }}" class="btn btn--outline">Видео</a>
+                <form method="post" action="{{ url_for('admin_logout') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn--outline">Выйти</button>
+                </form>
+            </div>
+        </div>
+
+        <form method="post" class="admin-form gallery-upload" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div>
+                <label for="images">Загрузить изображения с компьютера</label>
+                <input type="file" id="images" name="images" accept="image/jpeg,image/png,image/webp,image/gif" multiple required>
+                <p class="admin-form__hint">JPG, PNG, WEBP или GIF, до 12 МБ. Можно выбрать несколько файлов сразу. Эта страница видна только после входа в редактор.</p>
+            </div>
+            <div class="admin-form__actions">
+                <button type="submit" class="btn btn--primary">Загрузить</button>
+            </div>
+        </form>
+
+        {% if images %}
+        <div class="gallery-admin-grid">
+            {% for image in images %}
+            <article class="gallery-admin-card">
+                <a href="{{ image.url }}" target="_blank" class="gallery-admin-card__preview">
+                    <img src="{{ image.url }}" alt="{{ image.filename }}" loading="lazy">
+                </a>
+                <div class="gallery-admin-card__body">
+                    <div class="admin-form__hint">{{ image.modified_at | article_date }} · {{ image.size_label }}</div>
+                    <input type="text" class="gallery-admin-card__url" value="{{ image.url }}" readonly>
+                    <div class="admin-table__actions">
+                        <button type="button" class="btn btn--primary js-copy-url" data-url="{{ image.url }}">Копировать</button>
+                        <form method="post" action="{{ url_for('admin_gallery_delete', filename=image.filename) }}" onsubmit="return confirm('Удалить это изображение?');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn--danger">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="articles-empty">
+            <p>Пока нет загруженных изображений.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('.js-copy-url').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const url = button.getAttribute('data-url') || '';
+            const done = function () {
+                const original = button.textContent;
+                button.textContent = 'Скопировано';
+                setTimeout(function () {
+                    button.textContent = original;
+                }, 1600);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(done).catch(function () {
+                    window.prompt('Скопируйте ссылку', url);
+                });
+            } else {
+                window.prompt('Скопируйте ссылку', url);
+            }
+        });
+    });
+</script>
+{% endblock %}

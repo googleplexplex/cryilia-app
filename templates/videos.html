@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Видео - Центр психотерапии «Крылья»{% endblock %}
+
+{% block head %}
+    <meta name="description" content="Видеозаписи центра психотерапии и психологического консультирования «Крылья» в Туле.">
+{% endblock %}
+
+{% block content %}
+<section class="videos-page">
+    <div class="container">
+        <h1 class="section__title">Видео</h1>
+        <p class="videos-page__intro">Ролики наших специалистов о психическом здоровье, терапии и работе центра.</p>
+
+        {% if videos %}
+        <div class="videos-grid">
+            {% for video in videos %}
+            <article class="video-card">
+                {% if video.embed_html %}
+                {% include 'components/video_player.html' %}
+                {% endif %}
+                <h2 class="video-card__title">
+                    <a href="{{ url_for('video_detail', slug=video.slug) }}">{{ video.title }}</a>
+                </h2>
+                {% if video.excerpt %}
+                <p class="video-card__excerpt">{{ video.excerpt }}</p>
+                {% endif %}
+                <a href="{{ url_for('video_detail', slug=video.slug) }}" class="video-card__more">Подробнее</a>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="articles-empty">
+            <p>Видео скоро появятся.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
